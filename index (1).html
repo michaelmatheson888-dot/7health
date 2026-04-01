@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7Health — Finally, health made simple.</title>
+<meta name="description" content="Seven pillars. Evidence-based. Personalised. Free to start.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0a0908;--white:#ffffff;--off:#f7f4ef;
+  --gold:#c9972a;--gold2:#e8b84b;--gold3:#f0c840;--gold-dark:#8B6010;
+  --muted:#6b6560;--faint:#b8b0a4;--border:#e4ddd4;--border-dark:#1a1a1a;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Montserrat',sans-serif;background:var(--black);color:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+.page{max-width:680px;margin:0 auto;}
+.gone{display:none!important;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+@keyframes pulse{0%,100%{opacity:.3;}50%{opacity:.9;}}
+@keyframes scaleIn{from{transform:scale(.96);opacity:0;}to{transform:scale(1);opacity:1;}}
+
+/* ── LOGO COMPONENT ── */
+.logo-mark{display:flex;flex-direction:column;align-items:center;gap:0;cursor:pointer;}
+.logo-health{font-family:'Montserrat',sans-serif;font-weight:300;letter-spacing:.55em;color:var(--white);text-transform:uppercase;line-height:1;padding-right:.55em;}
+.logo-rule{background:rgba(255,255,255,.2);height:1px;width:100%;}
+.logo-seven{font-family:'Montserrat',sans-serif;font-weight:700;line-height:.9;}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(10,9,8,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-dark);padding:.8rem 1.75rem;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{display:flex;align-items:center;gap:.75rem;}
+.nav-logo .logo-health{font-size:13px;letter-spacing:.48em;}
+.nav-logo .logo-rule{width:100%;height:1px;margin:.1em 0;}
+.nav-logo .logo-seven{font-size:18px;background:linear-gradient(to bottom,#e8c060,#c9972a,#7a5010);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nav-right{display:flex;align-items:center;gap:1.25rem;}
+.nav-link{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);cursor:pointer;transition:color .2s;}
+.nav-link:hover{color:var(--gold);}
+.nav-cta{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;background:var(--gold);color:var(--black);padding:9px 20px;border:none;cursor:pointer;transition:all .2s;}
+.nav-cta:hover{background:var(--gold2);}
+
+/* ── HERO ── */
+.hero{min-height:95vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem 5rem;position:relative;overflow:hidden;}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(ellipse,rgba(201,151,42,.06) 0%,transparent 65%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.hero-inner{position:relative;z-index:1;max-width:520px;}
+/* BIG LOGO IN HERO */
+.hero-logo{display:flex;flex-direction:column;align-items:center;gap:0;margin-bottom:3rem;animation:fadeUp .9s ease both;}
+.hero-logo .logo-health{font-size:clamp(36px,8vw,60px);letter-spacing:.6em;padding-right:.6em;}
+.hero-logo .logo-rule{width:100%;height:1px;margin:.2em 0;background:rgba(255,255,255,.18);}
+.hero-logo .logo-seven{font-size:clamp(72px,16vw,120px);background:linear-gradient(to bottom,#e8c060 0%,#c9972a 40%,#7a5010 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-divider{display:flex;align-items:center;justify-content:center;gap:.75rem;margin:0 auto 1.5rem;animation:fadeUp .9s .08s ease both;}
+.hd-line{width:40px;height:1px;background:rgba(255,255,255,.12);}
+.hd-dot{width:3px;height:3px;border-radius:50%;background:var(--gold);opacity:.6;}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.45);line-height:1.9;max-width:400px;margin:0 auto 2.5rem;font-weight:300;animation:fadeUp .9s .12s ease both;}
+.hero-sub strong{color:rgba(255,255,255,.8);font-weight:500;}
+.hero-actions{animation:fadeUp .9s .18s ease both;}
+.btn-primary{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:16px 52px;background:var(--gold);color:var(--black);border:none;cursor:pointer;transition:all .25s;display:block;width:100%;max-width:340px;margin:0 auto;}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-2px);}
+.hero-note{font-size:10px;color:rgba(255,255,255,.18);margin-top:.75rem;letter-spacing:.06em;}
+.scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:5px;animation:pulse 2.5s infinite;}
+.sc-line{width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,.2),transparent);}
+.sc-text{font-size:8px;color:rgba(255,255,255,.15);letter-spacing:.18em;text-transform:uppercase;}
+
+/* ── TICKER ── */
+.ticker{background:var(--black);border-top:1px solid var(--border-dark);border-bottom:1px solid var(--border-dark);padding:.55rem 0;overflow:hidden;}
+.ticker-inner{display:flex;white-space:nowrap;animation:marquee 20s linear infinite;}
+.ti{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.1);padding:0 2rem;}
+.ti.gold{color:var(--gold);opacity:.5;}
+
+/* ── STATEMENT ── */
+.statement{background:var(--black);padding:6rem 2rem;position:relative;overflow:hidden;border-top:1px solid var(--border-dark);}
+.st-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,151,42,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,151,42,.03) 1px,transparent 1px);background-size:72px 72px;pointer-events:none;}
+.st-ghost{position:absolute;right:-20px;top:-20px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:240px;color:rgba(255,255,255,.018);line-height:1;pointer-events:none;letter-spacing:-.02em;}
+.st-inner{position:relative;}
+.st-kicker{font-size:9px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.6;margin-bottom:1.25rem;}
+.st-title{font-size:clamp(32px,7vw,52px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:1rem;letter-spacing:-.01em;}
+.st-title em{font-style:italic;color:var(--gold);}
+.st-rule{width:36px;height:1px;background:rgba(201,151,42,.3);margin:.85rem 0;}
+.st-body{font-size:14px;color:rgba(255,255,255,.35);line-height:1.95;max-width:440px;margin-bottom:3.5rem;font-weight:300;}
+.st-body strong{color:rgba(255,255,255,.6);font-weight:400;}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);}
+.stat{background:var(--black);padding:1.5rem 1.25rem;}
+.stat-n{font-size:36px;font-weight:300;color:var(--gold);line-height:1;letter-spacing:-.01em;}
+.stat-l{font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:.3rem;}
+
+/* ── PILLARS ── */
+.pillars-section{padding:5rem 1.75rem;border-top:1px solid var(--border-dark);}
+.sec-label{display:flex;align-items:center;gap:.75rem;margin-bottom:2.5rem;}
+.sl-rule{width:24px;height:1px;background:var(--gold);}
+.sl-text{font-size:9px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);opacity:.7;}
+.pillars-title{font-size:clamp(36px,8vw,58px);font-weight:300;color:var(--white);line-height:1;letter-spacing:-.01em;margin-bottom:3rem;}
+.pillars-title em{font-style:italic;color:var(--gold);}
+.pillar-row{display:flex;align-items:center;gap:1.25rem;padding:1.25rem 0;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;transition:all .2s;position:relative;}
+.pillar-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:var(--gold);opacity:.05;transition:width .3s;}
+.pillar-row:hover::before{width:100%;}
+.pillar-row:hover{padding-left:.5rem;}
+.pr-num{font-size:28px;font-weight:200;color:rgba(255,255,255,.12);width:42px;flex-shrink:0;line-height:1;transition:color .2s;letter-spacing:-.01em;}
+.pillar-row:hover .pr-num{color:var(--gold);}
+.pr-icon{width:28px;height:28px;flex-shrink:0;}
+.pr-body{flex:1;}
+.pr-word{font-size:15px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--white);line-height:1;margin-bottom:3px;transition:color .2s;}
+.pillar-row:hover .pr-word{color:var(--gold);}
+.pr-sub{font-size:10px;color:rgba(255,255,255,.25);letter-spacing:.08em;text-transform:uppercase;font-weight:400;}
+.pr-arrow{font-size:14px;color:rgba(255,255,255,.1);transition:all .2s;flex-shrink:0;}
+.pillar-row:hover .pr-arrow{color:var(--gold);transform:translateX(4px);}
+.pr-insight{display:none;font-size:12px;color:rgba(255,255,255,.35);line-height:1.6;padding-top:.4rem;font-weight:300;font-style:italic;}
+.pillar-row:hover .pr-insight{display:block;}
+
+/* ── HOW IT WORKS ── */
+.how-section{border-top:1px solid var(--border-dark);padding:5rem 1.75rem;background:var(--black);}
+.how-title{font-size:clamp(36px,8vw,58px);font-weight:300;color:var(--white);line-height:1;letter-spacing:-.01em;margin-bottom:3rem;}
+.how-title em{font-style:italic;color:var(--gold);}
+.step{display:flex;gap:1.5rem;padding:2rem 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.step:first-child{border-top:1px solid rgba(255,255,255,.06);}
+.step-num{font-size:52px;font-weight:200;color:rgba(255,255,255,.1);line-height:1;width:56px;flex-shrink:0;letter-spacing:-.02em;transition:color .3s;}
+.step:hover .step-num{color:var(--gold);}
+.step-body{padding-top:.4rem;}
+.step-title{font-size:14px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--white);margin-bottom:.5rem;}
+.step-desc{font-size:13px;color:rgba(255,255,255,.35);line-height:1.75;font-weight:300;}
+.step-desc strong{color:rgba(255,255,255,.65);font-weight:400;}
+.step-tag{display:inline-block;margin-top:.75rem;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:3px 10px;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.2);}
+
+/* ── QUIZ SECTION ── */
+.quiz-section{border-top:1px solid var(--border-dark);background:var(--black);}
+
+/* QUIZ ENTRY */
+.quiz-entry{padding:4rem 1.75rem;text-align:center;}
+.qe-kicker{font-size:9px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);opacity:.6;margin-bottom:1rem;}
+.qe-title{font-size:clamp(32px,7vw,52px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:.5rem;letter-spacing:-.01em;}
+.qe-title em{font-style:italic;color:var(--gold);}
+.qe-sub{font-size:14px;color:rgba(255,255,255,.35);line-height:1.75;max-width:380px;margin:0 auto 2.5rem;font-weight:300;}
+.btn-quiz{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:16px 52px;background:var(--gold);color:var(--black);border:none;cursor:pointer;transition:all .25s;display:inline-block;}
+.btn-quiz:hover{background:var(--gold2);transform:translateY(-2px);}
+.qe-note{font-size:10px;color:rgba(255,255,255,.15);margin-top:.75rem;letter-spacing:.06em;}
+
+/* ── INTAKE FORM ── */
+.intake-wrap{padding:0;}
+.intake-top{background:rgba(255,255,255,.03);border-bottom:1px solid var(--border-dark);padding:.85rem 1.75rem;display:flex;align-items:center;justify-content:space-between;}
+.it-step{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(201,151,42,.6);}
+.it-count{font-size:10px;color:rgba(255,255,255,.2);}
+.intake-prog{height:2px;background:rgba(255,255,255,.06);}
+.intake-prog-fill{height:100%;background:var(--gold);transition:width .4s ease;}
+.intake-body{padding:2.5rem 1.75rem;}
+.i-tag{font-size:9px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);opacity:.65;margin-bottom:.5rem;}
+.i-title{font-size:clamp(22px,5vw,32px);font-weight:300;color:var(--white);line-height:1.2;margin-bottom:.35rem;letter-spacing:-.01em;}
+.i-title em{font-style:italic;color:var(--gold);}
+.i-sub{font-size:13px;color:rgba(255,255,255,.3);line-height:1.65;margin-bottom:1.75rem;font-weight:300;}
+.opt-list{display:flex;flex-direction:column;gap:.4rem;}
+.opt-list.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;}
+.opt-btn{display:flex;align-items:center;gap:.85rem;padding:.85rem 1.1rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:all .18s;width:100%;font-family:'Montserrat',sans-serif;text-align:left;}
+.opt-btn:hover{border-color:rgba(201,151,42,.4);background:rgba(201,151,42,.05);}
+.opt-btn.sel{border-color:var(--gold);border-left-width:2px;background:rgba(201,151,42,.08);}
+.ob-icon{font-size:18px;flex-shrink:0;width:24px;text-align:center;}
+.ob-body{flex:1;}
+.ob-label{font-size:13px;font-weight:500;color:var(--white);margin-bottom:2px;}
+.ob-desc{font-size:11px;color:rgba(255,255,255,.3);line-height:1.4;font-weight:300;}
+.ob-check{width:18px;height:18px;border-radius:50%;border:1px solid rgba(255,255,255,.15);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .18s;}
+.opt-btn.sel .ob-check{background:var(--gold);border-color:var(--gold);}
+.ob-check::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--black);display:none;}
+.opt-btn.sel .ob-check::after{display:block;}
+.num-inputs{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-bottom:1.25rem;}
+.ni-group{display:flex;flex-direction:column;gap:.4rem;}
+.ni-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.ni-wrap{display:flex;align-items:center;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);overflow:hidden;transition:border-color .2s;}
+.ni-wrap:focus-within{border-color:var(--gold);}
+.ni-input{flex:1;font-family:'Montserrat',sans-serif;font-size:22px;font-weight:300;color:var(--white);padding:.75rem 1rem;background:transparent;border:none;outline:none;width:100%;}
+.ni-unit{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.2);padding:.75rem .85rem;border-left:1px solid rgba(255,255,255,.08);}
+.unit-toggle{display:flex;gap:.3rem;margin-top:.3rem;}
+.ut-btn{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border:1px solid rgba(255,255,255,.1);cursor:pointer;color:rgba(255,255,255,.2);background:transparent;transition:all .15s;}
+.ut-btn.active{background:var(--gold);color:var(--black);border-color:var(--gold);}
+.cond-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.85rem;}
+.cond-btn{display:flex;align-items:center;gap:.6rem;padding:.7rem .85rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:all .15s;text-align:left;width:100%;font-family:'Montserrat',sans-serif;}
+.cond-btn:hover{border-color:rgba(201,151,42,.4);}
+.cond-btn.sel{border-color:var(--gold);}
+.cb-icon{font-size:13px;}
+.cb-label{font-size:11px;font-weight:500;color:var(--white);flex:1;}
+.cb-box{width:15px;height:15px;border:1px solid rgba(255,255,255,.15);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.cond-btn.sel .cb-box{background:var(--gold);border-color:var(--gold);}
+.cb-tick{font-size:9px;color:var(--black);display:none;font-weight:700;}
+.cond-btn.sel .cb-tick{display:block;}
+.custom-cond{width:100%;font-family:'Montserrat',sans-serif;font-size:13px;padding:.85rem 1rem;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--white);outline:none;margin-bottom:.85rem;transition:border-color .2s;}
+.custom-cond:focus{border-color:var(--gold);}
+.custom-cond::placeholder{color:rgba(255,255,255,.2);}
+.cond-note{font-size:11px;color:rgba(255,255,255,.2);line-height:1.55;padding:.65rem .85rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);}
+.intake-nav{display:flex;gap:.5rem;padding:0 1.75rem 2rem;}
+.btn-back{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:13px 22px;background:transparent;color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:all .2s;}
+.btn-back:hover{border-color:var(--gold);color:var(--gold);}
+.btn-next{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:13px 28px;background:var(--gold);color:var(--black);border:none;cursor:pointer;transition:all .2s;flex:1;}
+.btn-next:hover{background:var(--gold2);}
+
+/* ── QUIZ ENGINE ── */
+.quiz-header{background:rgba(255,255,255,.03);border-bottom:1px solid var(--border-dark);padding:.85rem 1.75rem;display:flex;align-items:center;justify-content:space-between;}
+.qh-pillar{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:.06em;display:flex;align-items:center;gap:.5rem;}
+.qh-count{font-size:11px;color:rgba(255,255,255,.2);}
+.quiz-prog{height:2px;background:rgba(255,255,255,.06);}
+.quiz-prog-fill{height:100%;background:var(--gold);transition:width .5s ease;}
+.dots-bar{background:rgba(255,255,255,.02);padding:.5rem 1.75rem;display:flex;gap:3px;border-bottom:1px solid var(--border-dark);}
+.qdot{width:12px;height:2px;background:rgba(255,255,255,.08);transition:all .35s;}
+.qdot.lit{background:var(--gold);}
+.qdot.now{background:rgba(201,151,42,.35);}
+.quiz-body{padding:3rem 1.75rem 2.5rem;}
+.q-ptag{font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:.85rem;}
+.q-num{font-size:11px;color:rgba(255,255,255,.2);margin-bottom:.4rem;font-weight:400;letter-spacing:.04em;}
+.q-text{font-size:clamp(18px,4vw,26px);font-weight:300;color:var(--white);line-height:1.35;margin-bottom:2.5rem;letter-spacing:-.01em;}
+.yn-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.yn{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:18px;border:1px solid;cursor:pointer;background:transparent;transition:all .2s;}
+.yn-y{border-color:rgba(201,151,42,.25);color:var(--gold);}
+.yn-y:hover,.yn-y.sel{background:var(--gold);color:var(--black);border-color:var(--gold);}
+.yn-n{border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.4);}
+.yn-n:hover,.yn-n.sel{background:rgba(255,255,255,.1);color:var(--white);border-color:rgba(255,255,255,.3);}
+.yn.sel{transform:scale(1.02);}
+.insight-bar{display:none;background:rgba(255,255,255,.03);border-top:1px solid var(--border-dark);padding:1rem 1.75rem;}
+.insight-bar.show{display:block;animation:fadeUp .3s ease;}
+.ib-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.6;margin-bottom:.3rem;}
+.ib-text{font-size:14px;font-style:italic;color:rgba(255,255,255,.45);line-height:1.65;font-weight:300;font-family:'Cormorant Garamond',serif;}
+.ib-src{font-size:10px;color:rgba(255,255,255,.15);margin-top:.25rem;}
+
+/* ── RESULTS ── */
+.results-hero{background:var(--black);padding:4rem 2rem;text-align:center;border-bottom:1px solid var(--border-dark);}
+.rh-tag{font-size:9px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,151,42,.4);margin-bottom:.85rem;}
+.rh-name{font-size:clamp(36px,8vw,56px);font-weight:300;color:var(--white);line-height:1;margin-bottom:.4rem;letter-spacing:-.01em;}
+.rh-rule{width:36px;height:1px;background:rgba(201,151,42,.3);margin:.75rem auto;}
+.rh-line{font-size:14px;font-style:italic;color:rgba(255,255,255,.3);line-height:1.7;max-width:320px;margin:0 auto;font-family:'Cormorant Garamond',serif;}
+.results-body{padding:1.5rem 1.75rem;}
+.scorecard{background:rgba(255,255,255,.03);border:1px solid var(--border-dark);padding:1.5rem;margin-bottom:1.25rem;}
+.sc-who{font-size:11px;color:rgba(255,255,255,.2);text-align:center;margin-bottom:.75rem;letter-spacing:.04em;}
+.sc-overall{text-align:center;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:1rem;}
+.sc-ov-num{font-size:52px;font-weight:200;color:var(--gold);line-height:1;letter-spacing:-.02em;}
+.sc-ov-label{font-size:9px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:2px;}
+.sc-cols{display:grid;grid-template-columns:repeat(7,1fr);gap:.35rem;margin-bottom:.85rem;}
+.scp-col{display:flex;flex-direction:column;align-items:center;gap:.3rem;}
+.scp-bw{width:100%;background:rgba(255,255,255,.06);height:56px;display:flex;align-items:flex-end;}
+.scp-bar{width:100%;transition:height .9s ease;}
+.scp-pct{font-size:9px;font-weight:600;text-align:center;}
+.scp-word{font-size:6px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.2);text-align:center;line-height:1.2;margin-top:2px;}
+.sc-share{width:100%;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:11px;background:var(--gold);color:var(--black);border:none;cursor:pointer;margin-top:.75rem;transition:all .2s;}
+.sc-share:hover{background:var(--gold2);}
+.priority-block{border:1px solid rgba(255,255,255,.08);border-left:2px solid var(--gold);padding:1.25rem;margin-bottom:1rem;}
+.pb-tag{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:.4rem;}
+.pb-title{font-size:22px;font-weight:300;color:var(--white);margin-bottom:.4rem;letter-spacing:-.01em;}
+.pb-body{font-size:13px;color:rgba(255,255,255,.35);line-height:1.7;margin-bottom:1rem;font-weight:300;}
+.pb-action{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:.85rem 1rem;margin-bottom:1rem;}
+.pa-label{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#2a8a4a;margin-bottom:.25rem;}
+.pa-text{font-size:13px;color:var(--white);line-height:1.6;font-weight:400;}
+.pb-btn{width:100%;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:13px;background:var(--gold);color:var(--black);border:none;cursor:pointer;transition:all .2s;}
+.pb-btn:hover{background:var(--gold2);}
+.domains-section{margin-bottom:1.25rem;}
+.ds-label{font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.15);margin-bottom:.85rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,255,255,.06);}
+.d-row{border:1px solid rgba(255,255,255,.07);padding:.85rem 1rem;margin-bottom:.5rem;cursor:pointer;transition:border-color .15s;}
+.d-row:hover{border-color:var(--gold);}
+.d-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;}
+.d-left{display:flex;align-items:center;gap:.5rem;}
+.d-name{font-size:12px;font-weight:600;color:var(--white);letter-spacing:.04em;}
+.d-score{font-size:18px;font-weight:200;color:var(--white);letter-spacing:-.01em;}
+.d-bar-wrap{height:1px;background:rgba(255,255,255,.06);margin-bottom:.4rem;}
+.d-bar-fill{height:100%;transition:width 1.2s ease;}
+.d-text{font-size:12px;color:rgba(255,255,255,.3);line-height:1.55;font-weight:300;}
+.d-expand{display:none;padding-top:.75rem;margin-top:.75rem;border-top:1px solid rgba(255,255,255,.06);}
+.d-expand.open{display:block;}
+.de-label{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;opacity:.7;}
+.de-prompt{font-size:13px;color:rgba(255,255,255,.35);line-height:1.75;white-space:pre-wrap;word-break:break-word;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:.85rem;margin-bottom:.5rem;font-style:italic;font-family:'Cormorant Garamond',serif;}
+.de-copy{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;border:1px solid rgba(201,151,42,.3);background:transparent;color:var(--gold);cursor:pointer;transition:all .2s;}
+.de-copy:hover,.de-copy.done{background:var(--gold);color:var(--black);}
+.d-tog{font-size:11px;color:rgba(201,151,42,.3);margin-top:.4rem;cursor:pointer;transition:color .2s;}
+.d-tog:hover{color:var(--gold);}
+.upgrade-block{background:rgba(255,255,255,.03);border:1px solid var(--border-dark);padding:2rem 1.75rem;text-align:center;margin-bottom:1.25rem;}
+.ub-tag{font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(201,151,42,.4);margin-bottom:.5rem;}
+.ub-title{font-size:24px;font-weight:300;color:var(--white);margin-bottom:.35rem;letter-spacing:-.01em;}
+.ub-sub{font-size:13px;color:rgba(255,255,255,.3);line-height:1.65;margin-bottom:1.1rem;max-width:300px;margin-left:auto;margin-right:auto;font-weight:300;}
+.ub-btn{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:13px 36px;background:var(--gold);color:var(--black);border:none;cursor:pointer;transition:all .2s;}
+.ub-btn:hover{background:var(--gold2);}
+.ub-note{font-size:10px;color:rgba(255,255,255,.15);margin-top:.65rem;}
+.restart{display:block;text-align:center;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.1);padding:.85rem;cursor:pointer;transition:all .2s;margin-top:.25rem;}
+.restart:hover{color:var(--gold);}
+
+/* ── EMAIL ── */
+.email-section{border-top:1px solid var(--border-dark);padding:4rem 1.75rem;}
+.em-title{font-size:clamp(28px,6vw,42px);font-weight:300;color:var(--white);margin-bottom:.35rem;letter-spacing:-.01em;}
+.em-title em{font-style:italic;color:var(--gold);}
+.em-sub{font-size:13px;color:rgba(255,255,255,.3);line-height:1.65;margin-bottom:1.5rem;max-width:360px;font-weight:300;}
+.em-row{display:flex;gap:.5rem;max-width:400px;}
+.em-input{flex:1;font-family:'Montserrat',sans-serif;font-size:13px;padding:.85rem 1rem;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--white);outline:none;transition:border-color .2s;}
+.em-input:focus{border-color:var(--gold);}
+.em-input::placeholder{color:rgba(255,255,255,.2);}
+.em-btn{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:.85rem 22px;background:var(--gold);color:var(--black);border:none;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.em-btn:hover{background:var(--gold2);}
+.em-success{display:none;font-size:16px;font-style:italic;color:var(--gold);margin-top:.5rem;font-family:'Cormorant Garamond',serif;}
+.em-note{font-size:10px;color:rgba(255,255,255,.15);margin-top:.65rem;}
+
+/* ── FOOTER ── */
+footer{background:var(--black);border-top:1px solid var(--border-dark);padding:2rem 1.75rem;display:flex;align-items:center;justify-content:space-between;}
+.f-logo .logo-health{font-size:11px;letter-spacing:.44em;color:rgba(255,255,255,.15);}
+.f-logo .logo-rule{background:rgba(255,255,255,.08);}
+.f-logo .logo-seven{font-size:16px;background:linear-gradient(to bottom,#e8c060,#c9972a,#7a5010);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:.4;}
+.f-tag{font-size:9px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.1);}
+.f-links{display:flex;gap:1.25rem;}
+.f-link{font-size:9px;color:rgba(255,255,255,.1);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;font-weight:500;}
+.f-link:hover{color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showScreen('landing')" style="cursor:pointer;">
+    <div class="logo-mark">
+      <div class="logo-health">HEALTH</div>
+      <div class="logo-rule"></div>
+      <div class="logo-seven">7</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <span class="nav-link" onclick="showScreen('landing');setTimeout(()=>document.getElementById('pillars-sec').scrollIntoView({behavior:'smooth'}),100)">Pillars</span>
+    <span class="nav-link" onclick="showScreen('landing');setTimeout(()=>document.getElementById('how-sec').scrollIntoView({behavior:'smooth'}),100)">How it works</span>
+    <button class="nav-cta" onclick="startQuiz()">Take the quiz</button>
+  </div>
+</nav>
+
+<!-- ══ LANDING ══ -->
+<div id="screen-landing">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="hero-logo">
+        <div class="logo-health">HEALTH</div>
+        <div class="logo-rule"></div>
+        <div class="logo-seven">7</div>
+      </div>
+      <div class="hero-divider"><div class="hd-line"></div><div class="hd-dot"></div><div class="hd-line"></div></div>
+      <p class="hero-sub">Seven pillars. Evidence-based. Personalised by AI. <strong>Everything your body and mind need — backed by science, free to start.</strong></p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="startQuiz()">Find out where you stand →</button>
+        <div class="hero-note">No signup · No cost · 5 minutes</div>
+      </div>
+    </div>
+    <div class="scroll-cue"><div class="sc-line"></div><div class="sc-text">Scroll</div></div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker"><div class="ticker-inner" id="ticker-inner"></div></div>
+
+  <!-- STATEMENT -->
+  <section class="statement">
+    <div class="st-grid"></div>
+    <div class="st-ghost">7</div>
+    <div class="st-inner">
+      <div class="st-kicker">The mission</div>
+      <h2 class="st-title">Health isn't complicated.<br><em>It was just never explained properly.</em></h2>
+      <div class="st-rule"></div>
+      <p class="st-body">The science of your best body has existed for decades. <strong>It was locked behind expensive coaches, private clinics, and paywalls.</strong> 7Health gives it to you free — built on 100+ expert sources, personalised by AI.</p>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-n">100+</div><div class="stat-l">Expert sources</div></div>
+        <div class="stat"><div class="stat-n">7</div><div class="stat-l">Health pillars</div></div>
+        <div class="stat"><div class="stat-n">Free</div><div class="stat-l">To start</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section class="pillars-section" id="pillars-sec">
+    <div class="sec-label"><div class="sl-rule"></div><div class="sl-text">The seven pillars</div></div>
+    <h2 class="pillars-title">One falls,<br><em>they all fall.</em></h2>
+    <div id="pillar-list"></div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section" id="how-sec">
+    <div class="sec-label"><div class="sl-rule"></div><div class="sl-text">How it works</div></div>
+    <h2 class="how-title">Simple<br><em>by design.</em></h2>
+    <div id="steps-list"></div>
+  </section>
+
+  <!-- QUIZ ENTRY CTA -->
+  <section class="quiz-section">
+    <div class="quiz-entry">
+      <div class="qe-kicker">Your free health assessment</div>
+      <h2 class="qe-title">Find out where<br><em>you actually stand.</em></h2>
+      <p class="qe-sub">21 honest questions. Your full health picture across all seven pillars. One clear priority. Personalised AI coaching. Free.</p>
+      <button class="btn-quiz" onclick="startQuiz()">Start the quiz — it's free →</button>
+      <div class="qe-note">No signup · 5 minutes · Instant results</div>
+    </div>
+  </section>
+
+  <!-- EMAIL -->
+  <section class="email-section" id="email-sec">
+    <div class="sec-label"><div class="sl-rule"></div><div class="sl-text">Early access</div></div>
+    <h2 class="em-title">Join the <em>waitlist.</em></h2>
+    <p class="em-sub">7Health is launching soon. Be first to access personalised programmes, AI coaching, and deep-dive content for every pillar.</p>
+    <div class="em-row">
+      <input class="em-input" type="email" id="em-input" placeholder="your@email.com">
+      <button class="em-btn" onclick="submitEmail()">Join →</button>
+    </div>
+    <div class="em-success" id="em-success">You're on the list. We'll be in touch.</div>
+    <div class="em-note">No spam, ever.</div>
+  </section>
+
+</div>
+
+<!-- ══ INTAKE ══ -->
+<div id="screen-intake" class="gone">
+  <div class="intake-wrap">
+    <div class="intake-top">
+      <div class="it-step" id="it-step">About you</div>
+      <div class="it-count" id="it-count">1 of 6</div>
+    </div>
+    <div class="intake-prog"><div class="intake-prog-fill" id="intake-prog" style="width:16.6%"></div></div>
+    <div id="intake-steps-container"></div>
+    <div class="intake-nav">
+      <button class="btn-back" id="btn-back" style="display:none;" onclick="intakeBack()">← Back</button>
+      <button class="btn-next" id="btn-next" onclick="intakeNext()">Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="screen-quiz" class="gone">
+  <div class="quiz-header">
+    <div class="qh-pillar"><span id="qh-icon"></span><span id="qh-name">Starting</span></div>
+    <div class="qh-count"><span id="qh-n">1</span>/21</div>
+  </div>
+  <div class="quiz-prog"><div class="quiz-prog-fill" id="quiz-prog" style="width:4.7%"></div></div>
+  <div class="dots-bar" id="dots-bar"></div>
+  <div class="quiz-body">
+    <div class="q-ptag" id="q-ptag"></div>
+    <div class="q-num" id="q-num">Question 1 of 21</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="yn-row">
+      <button class="yn yn-y" id="btn-y" onclick="doAnswer(true)">Yes</button>
+      <button class="yn yn-n" id="btn-n" onclick="doAnswer(false)">No</button>
+    </div>
+  </div>
+  <div class="insight-bar" id="insight-bar">
+    <div class="ib-label">7Health</div>
+    <div class="ib-text" id="ib-text"></div>
+    <div class="ib-src" id="ib-src"></div>
+  </div>
+</div>
+
+<!-- ══ RESULTS ══ -->
+<div id="screen-results" class="gone">
+  <div class="results-hero">
+    <div class="rh-tag">Your reading · 7Health</div>
+    <div class="rh-name" id="rh-name"></div>
+    <div class="rh-rule"></div>
+    <div class="rh-line" id="rh-line"></div>
+  </div>
+  <div class="results-body">
+    <div id="scorecard-wrap"></div>
+    <div id="priority-wrap"></div>
+    <div id="domains-wrap"></div>
+    <div class="upgrade-block">
+      <div class="ub-tag">Go deeper</div>
+      <div class="ub-title">Your complete programme</div>
+      <div class="ub-sub">Unlock personalised programmes, AI coaching, and deep-dive content for every pillar.</div>
+      <button class="ub-btn" onclick="alert('7Health Pro — coming soon. Join the waitlist below.')">Unlock 7Health Pro →</button>
+      <div class="ub-note">Free to start · Cancel anytime</div>
+    </div>
+    <div class="restart" onclick="location.reload()">Start again</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo logo-mark" onclick="showScreen('landing');window.scrollTo(0,0);" style="cursor:pointer;">
+    <div class="logo-health">HEALTH</div>
+    <div class="logo-rule"></div>
+    <div class="logo-seven">7</div>
+  </div>
+  <div class="f-tag">One falls — they all fall</div>
+  <div class="f-links">
+    <span class="f-link" onclick="showScreen('landing');window.scrollTo(0,0);">Home</span>
+    <span class="f-link" onclick="startQuiz()">Quiz</span>
+    <span class="f-link" onclick="showScreen('landing');setTimeout(()=>document.getElementById('email-sec').scrollIntoView({behavior:'smooth'}),100)">Waitlist</span>
+  </div>
+</footer>
+
+</div>
+
+<script>
+/* ── ICONS ── */
+const ICON=(c,s,t)=>{const m={
+  nourish:`<svg width="${s}" height="${s}" viewBox="0 0 32 32" fill="none"><line x1="10" y1="6" x2="10" y2="26" stroke="${c}" stroke-width="1.5" stroke-linecap="round"/><path d="M7 6 Q6 11 7 14 Q10 16 13 14 Q14 11 13 6" fill="none" stroke="${c}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="22" y1="6" x2="22" y2="14" stroke="${c}" stroke-width="1.5" stroke-linecap="round"/><line x1="22" y1="14" x2="22" y2="26" stroke="${c}" stroke-width="1.5" stroke-linecap="round"/><line x1="18" y1="14" x2="26" y2="14" stroke="${c}" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  move:`<svg width="${s}" height="${s}" viewBox="0 0 32 32" fill="none"><path d="M5 22 L5 16 L9 16 L9 10 L13 10 L13 16 L19 16 L19 10 L23 10 L23 16 L27 16 L27 22" fill="none" stroke="${c}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="16" x2="7" y2="16" stroke="${c}" stroke-width="2" stroke-linecap="round"/><line x1="25" y1="16" x2="29" y2="16" stroke="${c}" stroke-width="2" stroke-linecap="round"/></svg>`,
+  rest:`<svg width="${s}" height="${s}" viewBox="0 0 32 32" fill="none"><path d="M20 7 Q12 8 10 16 Q8 24 16 26 Q24 28 27 20 Q21 22 18 18 Q15 14 20 7 Z" fill="none" stroke="${c}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="10" r="1.2" fill="${c}" opacity=".5"/></svg>`,
+  purpose:`<svg width="${s}" height="${s}" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="10" fill="none" stroke="${c}" stroke-width="1.5"/><circle cx="16" cy="16" r="5.5" fill="none" stroke="${c}" stroke-width="1.2" opacity=".6"/><circle cx="16" cy="16" r="2" fill="${c}"/><line x1="16" y1="4" x2="16" y2="7" stroke="${c}" stroke-width="1.2" stroke-linecap="round"/><line x1="16" y1="25" x2="16" y2="28" stroke="${c}" stroke-width="1.2" stroke-linecap="round"/><line x1="4" y1="16" x2="7" y2="16" stroke="${c}" stroke-width="1.2" stroke-linecap="round"/><line x1="25" y1="16" x2="28" y2="16" stroke="${c}" stroke-width="1.2" stroke-linecap="round"/></svg>`,
+  mind:`<svg width="${s}" height="${s}" viewBox="0 0 32 32" fill="none"><path d="M16 6 C10 6 6 10 6 15 C6 19 8 22 12 23 L12 26 L20 26 L20 23 C24 22 26 19 26 15 C26 10 22 6 16 6 Z" fill="none" stroke="${c}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="16" y1="10" x2="16" y2="18" stroke="${c}" stroke-width="1.2" stroke-linecap="round" opacity=".5"/><line x1="12" y1="13" x2="20" y2="13" stroke="${c}" stroke-width="1.2" stroke-linecap="round" opacity=".5"/></svg>`,
+  connect:`<svg width="${s}" height="${s}" viewBox="0 0 32 32" fill="none"><circle cx="11" cy="12" r="4.5" fill="none" stroke="${c}" stroke-width="1.5"/><circle cx="21" cy="12" r="4.5" fill="none" stroke="${c}" stroke-width="1.5"/><path d="M6 26 C6 22 8 20 11 20 C13 20 15 21 16 22 C17 21 19 20 21 20 C24 20 26 22 26 26" fill="none" stroke="${c}" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  thrive:`<svg width="${s}" height="${s}" viewBox="0 0 32 32" fill="none"><path d="M16 26 L16 8" stroke="${c}" stroke-width="1.5" stroke-linecap="round"/><path d="M10 14 L16 6 L22 14" fill="none" stroke="${c}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 20 C8 20 11 18 16 20 C21 22 24 20 24 20" fill="none" stroke="${c}" stroke-width="1.2" stroke-linecap="round" opacity=".5"/></svg>`
+};return m[t]||'';};
+
+/* ── DATA ── */
+const PILLARS=[
+  {id:'nourish',word:'NOURISH',sub:'Diet & Nutrition',gold:false,insight:'Protein is the highest-leverage nutritional variable. Most people eat half of what they need.'},
+  {id:'move',word:'MOVE',sub:'Training & Exercise',gold:false,insight:'Progressive overload is the only mechanism of adaptation. Everything else is packaging.'},
+  {id:'rest',word:'REST',sub:'Sleep & Recovery',gold:false,insight:'One week of poor sleep reduces testosterone by 15% and spikes hunger hormones by 25%.'},
+  {id:'purpose',word:'PURPOSE',sub:'Identity & Direction',gold:true,insight:'A strong sense of purpose reduces all-cause mortality by 15%. Biology — not philosophy.'},
+  {id:'mind',word:'MIND',sub:'Mental Health & Stress',gold:false,insight:'Chronic stress is a cardiovascular disease. It responds to intervention faster than most variables.'},
+  {id:'connect',word:'CONNECT',sub:'Relationships & Community',gold:false,insight:'Loneliness is as dangerous as smoking 15 cigarettes a day. Harvard\'s 80-year study proved it.'},
+  {id:'thrive',word:'THRIVE',sub:'Longevity & Vitality',gold:false,insight:'80% of your lifespan is determined by how you live — not your genetics.'},
+];
+
+const STEPS=[
+  {title:'Answer 21 honest questions',desc:'Diet, training, sleep, mind, relationships, purpose, longevity. No fluff — the questions that reveal where you actually stand. Takes 5 minutes.',tag:'Free · No signup'},
+  {title:'Get your seven-pillar reading',desc:'Your personalised breakdown. Your strengths, your gaps, and <strong>your single highest-leverage change</strong> — the one thing that makes everything easier.',tag:'Instant results'},
+  {title:'Act on what actually matters',desc:'Your personalised AI coaching prompt for your weakest pillar. Paste into ChatGPT. Get a complete programme for your exact situation.',tag:'Personalised to you'},
+];
+
+const ARCHETYPES=[
+  {min:82,name:'The Optimiser',tag:'Your foundations are strong. The work now is precision — closing the final gaps and compounding what\'s already working.'},
+  {min:65,name:'The Builder',tag:'Solid across most areas. Real opportunity in a few. Find the one lever that moves everything else. You\'re closer than you think.'},
+  {min:48,name:'The Seeker',tag:'An honest starting point — the only kind that actually leads somewhere. The biggest health gains go to people who start from exactly here.'},
+  {min:0,name:'The Beginning',tag:'The most important step is the one you just took. The science of living well is not complicated. It was just never explained properly. Until now.'},
+];
+
+/* ── PROFILE ── */
+const profile={age:null,sex:null,height:null,weight:null,heightUnit:'cm',weightUnit:'kg',activity:null,goal:null,conditions:[],
+  get weightKg(){return this.weightUnit==='kg'?this.weight:(this.weight/2.205);},
+  get weightDisplay(){if(!this.weight)return 'your weight';return this.weightUnit==='kg'?this.weight+'kg':this.weight+'lbs';},
+  get heightDisplay(){if(!this.height)return 'your height';return this.heightUnit==='cm'?this.height+'cm':this.height+'"';},
+  get proteinTarget(){const kg=this.weightKg||75;const mult=this.goal==='muscle'?1.8:this.goal==='fat_loss'?1.6:1.5;const adj=(this.age==='45-54'||this.age==='55+')?0.2:0;return Math.round(kg*(mult+adj));},
+  get tdee(){const kg=this.weightKg||75;const m={sedentary:1.2,light:1.375,moderate:1.55,very:1.725,athlete:1.9};const mult=m[this.activity]||1.375;const bmr=this.sex==='female'?447.6+(9.247*kg):88.36+(13.397*kg);return Math.round(bmr*mult);},
+  get activityLabel(){const m={sedentary:'sedentary',light:'lightly active',moderate:'moderately active',very:'very active',athlete:'athlete'};return m[this.activity]||'moderately active';},
+  get goalLabel(){const m={fat_loss:'lose body fat',muscle:'build muscle',energy:'improve energy',mental:'improve mental health',longevity:'live longer and healthier',unsure:'improve overall health'};return m[this.goal]||'improve overall health';}
+};
+
+/* ── QUESTIONS ── */
+const QS=[
+  {pillar:'nourish',key:'protein',w:3,
+   text:(p)=>`Do you eat at least ${p.proteinTarget}g of protein most days?`,
+   yes:(p)=>`At ${p.weightDisplay}, ${p.proteinTarget}g is your target. Protein drives fat loss, muscle gain, and satiety simultaneously — the highest-leverage nutritional variable available.`,
+   no:(p)=>`Most people eat half of what they need. At ${p.weightDisplay}, your target is ${p.proteinTarget}g daily. This single change has a bigger impact on body composition than almost anything else.`,
+   src:'Stuart Phillips · McMaster University'},
+  {pillar:'nourish',key:'calories',w:2,
+   text:(p)=>`Do you roughly know how many calories you eat daily? ${p.goal==='fat_loss'?'(Your target is around '+(p.tdee-350)+' kcal)':p.goal==='muscle'?'(Your muscle gain target is '+(p.tdee+300)+' kcal)':''}`,
+   yes:()=>`Awareness alone changes behaviour. Most people discover they eat 20–30% more than they think — even when eating "clean."`,
+   no:()=>`You can't optimise what you don't measure. Even a rough awareness shifts decisions immediately. You don't need to count forever — just understand your baseline.`,
+   src:'Kevin Hall · NIH Metabolic Research'},
+  {pillar:'nourish',key:'whole_foods',w:2,
+   text:()=>`Do you eat mostly whole, minimally processed foods most of the time?`,
+   yes:()=>`Whole foods regulate hunger hormones in ways ultra-processed food specifically doesn't. You're eating the way your body expects.`,
+   no:()=>`In the only RCT of its kind, people on ultra-processed food ate 500 extra calories daily without feeling fuller. The food overrides satiety signals — it's not a willpower problem.`,
+   src:'Hall et al. 2019 · Cell Metabolism'},
+  {pillar:'move',key:'resistance',w:3,
+   text:(p)=>{
+     if(p.conditions.includes('knee'))return `Do you do any low-impact resistance training — machines, bands, or bodyweight — at least twice a week? (Adjusted for your knee)`;
+     if(p.conditions.includes('back'))return `Do you do any resistance training that doesn't aggravate your back at least twice a week?`;
+     const freq=(p.age==='18-24'||p.goal==='muscle')?'three times':'twice';
+     return `Do you do resistance training at least ${freq} a week?`;
+   },
+   yes:(p)=>`Resistance training is the most important longevity intervention available. ${(p.age==='45-54'||p.age==='55+')?'After 45, skeletal muscle is the organ of longevity — you\'re protecting yours.':'You\'re building the most important organ for long-term health.'}`,
+   no:(p)=>`${(p.age==='45-54'||p.age==='55+')?'After 45, the body loses 1–2% of muscle per year without resistance training. This directly affects metabolism, bone density, and longevity.':'After 25, the body loses ~1% of muscle per year without resistance training. Two sessions per week reverses this entirely.'}`,
+   src:'Brad Schoenfeld · CUNY · Gabrielle Lyon MD'},
+  {pillar:'move',key:'overload',w:3,
+   text:()=>`Do you train with progressive overload — gradually adding weight, reps, or sets over time?`,
+   yes:()=>`Progressive overload is the entire mechanism of adaptation. You understand what most people in any gym don't — this separates people who transform from people who plateau.`,
+   no:()=>`Doing the same workout at the same weight indefinitely is the definition of a plateau. Muscles adapt to a stimulus and stop responding. The stress must increase.`,
+   src:'Kraemer & Ratamess 2004 · Med Sci Sports'},
+  {pillar:'move',key:'results',w:1,
+   text:()=>`Do you feel your training is producing visible, measurable results?`,
+   yes:()=>`Visible progress confirms your training, nutrition, and recovery are aligned. Keep the variables consistent.`,
+   no:()=>`If nothing's changing after 8+ weeks, something in the training-nutrition-recovery triad is misaligned. The culprit is almost always protein intake or sleep — rarely the training itself.`,
+   src:'EBT Gold Coast · Applied sports science'},
+  {pillar:'rest',key:'quality',w:3,
+   text:()=>`Do you usually wake up feeling genuinely rested — not relying on caffeine to function?`,
+   yes:()=>`Restorative sleep is when testosterone is produced, muscle is built, memory is consolidated, and cortisol resets. You're giving your body this every night.`,
+   no:(p)=>`One week of 5-hour sleep reduces testosterone by 15% and hunger hormones by 25%. ${p.goal==='muscle'?'Growth hormone — which builds muscle — is primarily released during deep sleep. Poor rest halts adaptation.':p.goal==='fat_loss'?'Elevated hunger hormones make fat loss nearly impossible regardless of diet discipline.':'Every other pillar gets harder when this is off.'}`,
+   src:'Leproult & Van Cauter 2011 · JAMA'},
+  {pillar:'rest',key:'consistency',w:3,
+   text:()=>`Do you go to bed and wake up at roughly the same time every day — including weekends?`,
+   yes:()=>`A consistent wake time anchors your circadian rhythm — improving sleep quality, cortisol timing, and afternoon energy. The single most impactful free sleep intervention.`,
+   no:()=>`Irregular sleep timing disrupts cortisol, insulin sensitivity, and melatonin — even when total hours look adequate. Consistency matters as much as duration.`,
+   src:'Russell Foster · Oxford · Circadian neuroscience'},
+  {pillar:'rest',key:'wind_down',w:2,
+   text:()=>`Do you have a screen-free wind-down routine for at least 20 minutes before bed?`,
+   yes:()=>`A pre-sleep ritual drops cortisol and elevates melatonin. The depth and quality of your sleep improves measurably with this in place.`,
+   no:()=>`Screens suppress melatonin production for up to 90 minutes after use. A 20-minute screen-free wind-down consistently outperforms most sleep supplements.`,
+   src:'Andrew Huberman · Stanford · Sleep protocols'},
+  {pillar:'purpose',key:'meaning',w:3,
+   text:()=>`Do you feel your daily life has genuine meaning and direction?`,
+   yes:()=>`Purpose is measurably linked to a 15% reduction in all-cause mortality and lower chronic inflammation. This is biology — not philosophy. You have the central pillar in place.`,
+   no:()=>`People without a clear sense of direction show elevated inflammatory markers and significantly higher mortality risk. Purpose can be cultivated deliberately. It's a skill, not a fixed trait.`,
+   src:'Hill et al. 2014 · Psychological Science'},
+  {pillar:'purpose',key:'identity',w:3,
+   text:()=>`Do you have a clear sense of the person you are actively working to become?`,
+   yes:()=>`Identity drives behaviour more reliably than goals or willpower. Every healthy action reinforces who you are becoming.`,
+   no:()=>`Without a clear identity, health behaviours are fragile — dependent on motivation rather than values. "Every action is a vote for the person you want to become."`,
+   src:'James Clear · Atomic Habits · Carol Dweck · Stanford'},
+  {pillar:'purpose',key:'ikigai',w:2,
+   text:()=>`Do you feel genuinely motivated to get up and engage with your day most mornings?`,
+   yes:()=>`Ikigai — a reason to get up in the morning — is one of the most replicated longevity behaviours in every Blue Zone population ever studied.`,
+   no:()=>`The Okinawan concept of Ikigai directly correlates with longevity and health outcomes. Not having a reason to get up is a measurable health risk — not just a feeling.`,
+   src:'Kawachi et al. · Harvard · Blue Zones research'},
+  {pillar:'mind',key:'stress',w:3,
+   text:()=>`Do you generally feel in control of your stress — rather than overwhelmed by it?`,
+   yes:()=>`Stress mastery — not stress absence — is what high performers share. Your nervous system is working for you.`,
+   no:(p)=>`Chronic stress raises cortisol, drives fat storage, suppresses testosterone, impairs sleep, and is a direct cardiovascular risk factor. ${p.conditions.includes('anxiety')?'With anxiety flagged, this pillar is your most important focus.':'It responds to intervention faster than almost any other health variable.'}`,
+   src:'Robert Sapolsky · Stanford · Kivimäki et al. 2012 · Lancet'},
+  {pillar:'mind',key:'self_talk',w:2,
+   text:()=>`Do you speak to yourself with kindness after mistakes — without harsh self-criticism?`,
+   yes:()=>`Self-compassion lowers cortisol, builds resilience, and reduces depression risk. Research shows it outperforms self-esteem as a wellbeing predictor.`,
+   no:()=>`Chronic harsh self-criticism activates the same physiological pathways as external threat — elevated cortisol, increased inflammation, disrupted sleep.`,
+   src:'Kristin Neff · University of Texas'},
+  {pillar:'mind',key:'recovery_practice',w:2,
+   text:()=>`Do you have at least one daily practice that deliberately clears your head?`,
+   yes:()=>`A deliberate nervous system recovery practice is as important as physical recovery. You're managing your most important organ with intentionality.`,
+   no:()=>`The nervous system accumulates stress like muscles accumulate fatigue. Without deliberate recovery, the load becomes chronic and affects every other pillar.`,
+   src:'Judson Brewer · Brown · Andrew Huberman · Stanford'},
+  {pillar:'connect',key:'close_relationships',w:3,
+   text:()=>`Do you have people in your life you genuinely feel close to and supported by?`,
+   yes:()=>`Harvard's 80-year study found close relationships are the single strongest predictor of long-term health — above diet, exercise, or wealth. You have the most important longevity factor in place.`,
+   no:()=>`Loneliness increases mortality risk by 29% — equivalent to smoking 15 cigarettes daily. This is the most underrated health variable in modern life.`,
+   src:'Robert Waldinger · Harvard Study of Adult Development'},
+  {pillar:'connect',key:'face_to_face',w:3,
+   text:()=>`Do you regularly spend meaningful time with people face-to-face?`,
+   yes:()=>`Face-to-face contact is the strongest longevity predictor — stronger than clean air or regular exercise. You're doing the most important social health behaviour.`,
+   no:()=>`Digital connection doesn't replace in-person contact biologically. The body requires physical presence to fully activate the social reward and safety systems.`,
+   src:'Susan Pinker · The Village Effect · John Cacioppo · University of Chicago'},
+  {pillar:'connect',key:'belonging',w:2,
+   text:()=>`Do you feel a genuine sense of belonging — to a group, community, or something larger than yourself?`,
+   yes:()=>`Belonging activates the same reward circuits as food and physical safety. It is a fundamental biological need — and you're meeting it.`,
+   no:()=>`Social exclusion activates the same neural regions as physical pain. Belonging isn't optional — it's as fundamental as food and sleep for long-term health.`,
+   src:'Matthew Lieberman · UCLA · Social neuroscience'},
+  {pillar:'thrive',key:'cardio',w:3,
+   text:(p)=>{
+     if(p.activity==='sedentary')return `Do you walk briskly for at least 30 minutes most days?`;
+     if(p.conditions.includes('knee')||p.conditions.includes('back'))return `Do you do low-impact cardiovascular exercise — swimming, cycling, or walking — at least twice a week?`;
+     return `Do you do cardiovascular exercise — running, cycling, or similar — at least twice a week?`;
+   },
+   yes:(p)=>`VO2 max is the single strongest predictor of all-cause mortality. ${p.activity==='sedentary'?'Even regular walking measurably improves this biomarker over weeks.':'You\'re training the most important longevity biomarker available.'}`,
+   no:(p)=>`Moving from the bottom to the top 25% of VO2 max for your age reduces all-cause mortality by ~400%. ${p.activity==='sedentary'?'Start with 30 minutes of brisk walking daily.':'Two sessions per week is the minimum effective dose.'}`,
+   src:'Peter Attia · Outlive 2023'},
+  {pillar:'thrive',key:'vegetables',w:2,
+   text:()=>`Do you eat vegetables or fruit at least 4 times a day?`,
+   yes:()=>`High vegetable intake is the most consistent dietary finding across every Blue Zone population ever studied. You're eating the way the world's longest-lived people eat.`,
+   no:()=>`5+ servings daily is associated with a 13% reduction in all-cause mortality — independent of every other lifestyle factor.`,
+   src:'Dan Buettner · Blue Zones · Global epidemiology'},
+  {pillar:'thrive',key:'vitality',w:2,
+   text:()=>`Do you feel physically vital — energetic, strong, and capable in your daily life?`,
+   yes:()=>`Physical vitality is the integrated output of all seven pillars working in alignment. It's the most honest signal that the system is functioning correctly.`,
+   no:()=>`Low vitality is the earliest warning sign that something in the system is off — often before any clinical marker shows up. The quiz is designed to find where the friction is.`,
+   src:'Peter Attia · Longevity medicine'},
+];
+
+const PILLAR_COACHING={
+  nourish:{hi:'Your nutritional foundation is strong.',lo:'Nutrition is your highest-leverage opportunity.',action_hi:'Track your protein for 3 days this week. Awareness only.',action_lo:'One change: hit your protein target today. Just that.',
+   prompt:(p)=>`You are a sports nutritionist drawing on Kevin Hall (NIH), Stuart Phillips (McMaster), and Blue Zones research.\n\nMy profile: ${p.age||'adult'} years old, ${p.sex||'not specified'}, ${p.weightDisplay}, ${p.activityLabel}.\nMy goal: ${p.goalLabel}.\n${p.conditions.length&&!p.conditions.includes('none')?'Health context: '+p.conditions.join(', ')+'.\n':''}\nGive me:\n1. My exact daily calorie and protein targets with the calculation\n2. The 3 highest-impact changes to make this week in priority order\n3. A simple daily eating structure I can actually follow\n4. The 2 things most likely doing the most damage right now\n\nCite the evidence. Be direct.`},
+  move:{hi:'Your training approach is solid.',lo:'Training is your biggest physical opportunity.',action_hi:'Add one set to your main compound lifts this week.',action_lo:'Start this week: push, pull, legs. 3 exercises each, 3 sets each. Progressive overload from session one.',
+   prompt:(p)=>`You are an evidence-based strength coach drawing on Brad Schoenfeld, Eric Helms, and Mike Israetel.\n\nMy profile: ${p.age||'adult'}, ${p.sex||'not specified'}, ${p.weightDisplay}, ${p.activityLabel}.\nMy goal: ${p.goalLabel}.\n${p.conditions.length&&!p.conditions.includes('none')?'Conditions to work around: '+p.conditions.join(', ')+'.\n':''}\nDesign me:\n1. A complete weekly training split with exercises, sets, reps, rest\n2. An 8-week progressive overload plan with specific weekly targets\n3. When and how to deload\n4. The 2 most common mistakes people at my level make\n\nAdjust for any conditions listed.`},
+  rest:{hi:'Sleep is your hidden competitive advantage.',lo:'Fix sleep first — everything else gets easier.',action_hi:'Set a consistent wake time this week. Same every day including weekends.',action_lo:'Choose a bedtime tonight and honour it. One night of better sleep shifts your hormonal profile measurably.',
+   prompt:(p)=>`You are a sleep medicine specialist drawing on Matthew Walker (Berkeley), Andrew Huberman (Stanford), and Russell Foster (Oxford).\n\nMy profile: ${p.age||'adult'}, ${p.sex||'not specified'}, ${p.activityLabel}.\n${p.conditions.includes('insomnia')?'I have a sleep disorder/insomnia.\n':''}\nBuild me:\n1. My optimal sleep and wake schedule\n2. A pre-sleep wind-down routine (20–30 min) with the science behind each step\n3. Sleep environment optimisation: temperature, light, noise, devices\n4. The 2 changes that would most improve my sleep quality this week\n\nBe specific. Cite the evidence.`},
+  purpose:{hi:'You have the central pillar in place.',lo:'This is the pillar that holds all the others up.',action_hi:'Write down the 3 qualities of the person you\'re becoming. Keep it visible.',action_lo:'Spend 10 minutes on the Ikigai exercise: what do you love, what are you good at, what does the world need, what could you be paid for.',
+   prompt:(p)=>`You are an integrative psychologist drawing on Viktor Frankl, Martin Seligman (UPenn), James Clear, and Carol Dweck (Stanford).\n\nMy profile: ${p.age||'adult'}, ${p.sex||'not specified'}.\nGive me:\n1. Walk me through the Ikigai exercise step by step\n2. A practical identity statement: "I am the kind of person who..."\n3. The science behind why purpose reduces mortality — make it concrete\n4. 3 questions to journal on this week to clarify my direction\n\nBe personal and direct.`},
+  mind:{hi:'Your mental resilience is a genuine performance advantage.',lo:'Your stress load is affecting your training, nutrition, and sleep simultaneously.',action_hi:'Try 5 minutes of slow breathing today — 4 seconds in, 6 seconds out.',action_lo:'One tool: the physiological sigh (double inhale through nose, long exhale). Use it when stress spikes. Proven to work in under 1 minute.',
+   prompt:(p)=>`You are an integrative psychologist drawing on Andrew Huberman (Stanford), Robert Sapolsky (Stanford), and Kristin Neff.\n\nMy profile: ${p.age||'adult'}, ${p.sex||'not specified'}, ${p.activityLabel}.\n${p.conditions.includes('anxiety')?'I experience anxiety.\n':''}\nGive me:\n1. The specific physiological effects my stress level is having on my body right now\n2. One daily practice under 10 minutes that would most reduce my chronic stress — with the neuroscience\n3. A morning routine under 20 minutes that optimises cortisol and focus\n4. How to build self-compassion as a daily behaviour — not a concept\n\nBe direct about what chronic stress is doing to my body.`},
+  connect:{hi:'You have the most important longevity factor in place.',lo:'Social connection is the strongest predictor of long-term health. This needs attention.',action_hi:'Reach out to one person you haven\'t spoken to in a while. One message, 10 minutes.',action_lo:'Identify one existing relationship you could go deeper in. Not a new person — someone already in your life. Reach out this week.',
+   prompt:(p)=>`You are a social psychologist drawing on Robert Waldinger (Harvard), Julianne Holt-Lunstad (BYU), and Brené Brown.\n\nMy profile: ${p.age||'adult'}, ${p.sex||'not specified'}.\nGive me:\n1. The specific health risks of my current social connection level — with the data\n2. The difference between loneliness and being alone\n3. 3 practical ways to build deeper connection this week\n4. The moai concept from Okinawa — and how to build my own version\n\nBe honest, warm, and evidence-based.`},
+  thrive:{hi:'The integration pillar reflects all six others — yours is looking solid.',lo:'Longevity is the integration of all seven pillars. Fix the foundation first.',action_hi:'Book a VO2 max test or use a smartwatch estimate. Knowing your number makes the goal concrete.',action_lo:'One walk. 30 minutes. Outside. Today. Lowest barrier, highest impact longevity intervention available.',
+   prompt:(p)=>`You are a longevity physician drawing on Peter Attia (Outlive), David Sinclair (Harvard), and Dan Buettner (Blue Zones).\n\nMy profile: ${p.age||'adult'}, ${p.sex||'not specified'}, ${p.weightDisplay}, ${p.activityLabel}.\nMy goal: ${p.goalLabel}.\nGive me:\n1. My most important longevity biomarkers to track at my age — and why\n2. The Power 9 Blue Zone behaviours — which 3 are most relevant to me\n3. A VO2 max improvement plan for my current activity level\n4. The 3 lifestyle changes that most rapidly improve biological age\n\nSpecific, evidence-based, actionable.`},
+};
+
+const CASCADE={rest:['nourish','move','mind'],nourish:['move','thrive'],purpose:['mind','connect','thrive'],mind:['nourish','rest','connect'],move:['mind','rest','thrive'],connect:['mind','purpose'],thrive:[]};
+
+/* ── STATE ── */
+let answers={},curQ=0,intakeStep=0;
+
+/* ── BUILD LANDING ── */
+(function buildLanding(){
+  /* Pillars */
+  const pl=document.getElementById('pillar-list');
+  PILLARS.forEach(p=>{
+    const row=document.createElement('div');row.className='pillar-row';
+    row.innerHTML=`<div class="pr-num">${['I','II','III','IV','V','VI','VII'][PILLARS.indexOf(p)]}</div><div class="pr-icon">${ICON(p.gold?'#c9972a':'rgba(255,255,255,.6)',28,p.id)}</div><div class="pr-body"><div class="pr-word" style="${p.gold?'color:#c9972a':''}">${p.word}</div><div class="pr-sub">${p.sub}</div><div class="pr-insight">${p.insight}</div></div><div class="pr-arrow">→</div>`;
+    pl.appendChild(row);
+  });
+  /* Steps */
+  const sl=document.getElementById('steps-list');
+  STEPS.forEach((s,i)=>{
+    sl.innerHTML+=`<div class="step"><div class="step-num">0${i+1}</div><div class="step-body"><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div><div class="step-tag">${s.tag}</div></div></div>`;
+  });
+  /* Ticker */
+  const tk=document.getElementById('ticker-inner');
+  const items=['NOURISH','MOVE','REST','PURPOSE','MIND','CONNECT','THRIVE','EVIDENCE-BASED','FREE TO START','PERSONALISED','7 PILLARS','YOUR COACH'];
+  [...items,...items].forEach(item=>{
+    const el=document.createElement('span');
+    el.className='ti'+(item==='PURPOSE'?' gold':'');
+    el.textContent=item;
+    tk.appendChild(el);
+  });
+})();
+
+/* ── SCREEN ROUTING ── */
+function showScreen(id){
+  ['landing','intake','quiz','results'].forEach(s=>{
+    const el=document.getElementById('screen-'+s);
+    if(el){el.classList.toggle('gone',s!==id);}
+  });
+  window.scrollTo(0,0);
+}
+
+/* ── INTAKE ── */
+const INTAKE_STEPS=[
+  {tag:'Step 1 · About you',title:'How old <em>are you?</em>',sub:'Your age shapes protein needs, recovery time, and which health risks matter most right now.',
+   build:(el)=>buildOptList(el,[{l:'Under 18',d:'Building foundations early.',v:'under18'},{l:'18 – 24',d:'Peak potential. Build habits that last decades.',v:'18-24'},{l:'25 – 34',d:'Optimising performance. Recovery starts to matter.',v:'25-34'},{l:'35 – 44',d:'Maintaining and building. Hormonal changes begin.',v:'35-44'},{l:'45 – 54',d:'Protecting muscle mass and VO2 max. Critical window.',v:'45-54'},{l:'55+',d:'Longevity focus. Quality of life for the next decades.',v:'55+'}],'age','opt-list'),validate:()=>!!profile.age},
+  {tag:'Step 2 · About you',title:'Biological <em>sex?</em>',sub:'Affects protein targets, TDEE, and hormonal context in your recommendations.',
+   build:(el)=>{buildOptList(el,[{icon:'♂',l:'Male',d:'',v:'male'},{icon:'♀',l:'Female',d:'',v:'female'}],'sex','opt-list grid2');el.innerHTML+=`<p style="font-size:11px;color:rgba(255,255,255,.2);line-height:1.55;margin-top:.75rem;font-weight:300;">We ask for biological sex for physiological accuracy. Your gender identity is entirely your own.</p>`;},validate:()=>!!profile.sex},
+  {tag:'Step 3 · Your body',title:'Height &amp; <em>weight.</em>',sub:'Used to calculate your specific protein target and personalise every recommendation.',
+   build:(el)=>{el.innerHTML=`<div class="num-inputs"><div class="ni-group"><div class="ni-label">Height</div><div class="ni-wrap"><input class="ni-input" type="number" id="i-h" placeholder="175" min="100" max="250"><div class="ni-unit" id="u-h">cm</div></div><div class="unit-toggle"><button class="ut-btn active" onclick="setU('h','cm',this)">cm</button><button class="ut-btn" onclick="setU('h','ft',this)">ft</button></div></div><div class="ni-group"><div class="ni-label">Weight</div><div class="ni-wrap"><input class="ni-input" type="number" id="i-w" placeholder="75" min="30" max="300"><div class="ni-unit" id="u-w">kg</div></div><div class="unit-toggle"><button class="ut-btn active" onclick="setU('w','kg',this)">kg</button><button class="ut-btn" onclick="setU('w','lbs',this)">lbs</button></div></div></div><p style="font-size:11px;color:rgba(255,255,255,.18);line-height:1.55;padding:.65rem .85rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);font-weight:300;">Your data is private and never shared.</p>`;},validate:()=>true},
+  {tag:'Step 4 · Your lifestyle',title:'How active are you <em>right now?</em>',sub:'Be honest — not aspirational. This is your current reality, not your goal.',
+   build:(el)=>buildOptList(el,[{icon:'🪑',l:'Sedentary',d:'Desk job, little or no exercise.',v:'sedentary'},{icon:'🚶',l:'Lightly active',d:'Light exercise 1–3 days/week.',v:'light'},{icon:'🏃',l:'Moderately active',d:'Exercise 3–5 days/week.',v:'moderate'},{icon:'💪',l:'Very active',d:'Hard training 6–7 days/week.',v:'very'},{icon:'🏅',l:'Athlete',d:'Twice daily training or elite sport.',v:'athlete'}],'activity','opt-list'),validate:()=>!!profile.activity},
+  {tag:'Step 5 · Your focus',title:'What\'s your <em>main goal?</em>',sub:'Pick the one that resonates most. The algorithm prioritises your reading around this.',
+   build:(el)=>buildOptList(el,[{icon:'🔥',l:'Lose body fat',d:'Improve body composition.',v:'fat_loss'},{icon:'💪',l:'Build muscle',d:'Get stronger and add lean mass.',v:'muscle'},{icon:'⚡',l:'More energy',d:'Feel and perform better daily.',v:'energy'},{icon:'🧠',l:'Mental health',d:'Feel calmer and in control.',v:'mental'},{icon:'❤️',l:'Health & longevity',d:'Build lifelong healthy habits.',v:'longevity'},{icon:'🎯',l:'Not sure yet',d:'Let the quiz decide.',v:'unsure'}],'goal','opt-list'),validate:()=>!!profile.goal},
+  {tag:'Step 6 · Health context',title:'Any conditions, injuries, <em>or things we should know?</em>',sub:'We won\'t suggest HIIT for someone with a knee injury. The more honest you are, the better your results.',
+   build:(el)=>{
+     const conds=[{icon:'🦵',l:'Knee injury',v:'knee'},{icon:'🦴',l:'Back pain',v:'back'},{icon:'💔',l:'Heart condition',v:'heart'},{icon:'🩸',l:'Diabetes',v:'diabetes'},{icon:'🧠',l:'Anxiety/depression',v:'anxiety'},{icon:'😴',l:'Insomnia',v:'insomnia'},{icon:'🤕',l:'Chronic pain',v:'chronic_pain'},{icon:'⚡',l:'Fatigue/burnout',v:'fatigue'},{icon:'🏋️',l:'Shoulder injury',v:'shoulder'},{icon:'🫁',l:'Asthma',v:'asthma'},{icon:'🍽️',l:'Eating disorder history',v:'eating_disorder'},{icon:'✅',l:'None of the above',v:'none'}];
+     const grid=document.createElement('div');grid.className='cond-grid';
+     conds.forEach(c=>{
+       const btn=document.createElement('button');btn.className='cond-btn';
+       btn.innerHTML=`<div class="cb-icon">${c.icon}</div><div class="cb-label">${c.l}</div><div class="cb-box"><div class="cb-tick">✓</div></div>`;
+       btn.addEventListener('click',()=>{
+         if(c.v==='none'){grid.querySelectorAll('.cond-btn').forEach(b=>b.classList.remove('sel'));profile.conditions=['none'];}
+         else{grid.querySelector('[data-none]')&&grid.querySelector('[data-none]').classList.remove('sel');profile.conditions=profile.conditions.filter(x=>x!=='none');if(profile.conditions.includes(c.v)){profile.conditions=profile.conditions.filter(x=>x!==c.v);btn.classList.remove('sel');}else{profile.conditions.push(c.v);btn.classList.add('sel');}return;}
+         btn.classList.add('sel');
+       });
+       if(c.v==='none')btn.setAttribute('data-none','');
+       grid.appendChild(btn);
+     });
+     el.appendChild(grid);
+     const inp=document.createElement('input');inp.className='custom-cond';inp.placeholder='Anything else? (optional)';inp.type='text';
+     el.appendChild(inp);
+     el.innerHTML+=`<p class="cond-note">7Health is not a medical service. Consult your doctor before significant lifestyle changes if you have a serious health condition.</p>`;
+   },validate:()=>true},
+];
+
+function buildOptList(container,opts,stateKey,cls){
+  const wrap=document.createElement('div');wrap.className=cls||'opt-list';
+  opts.forEach(opt=>{
+    const btn=document.createElement('button');btn.className='opt-btn';
+    btn.innerHTML=`${opt.icon?`<div class="ob-icon">${opt.icon}</div>`:''}<div class="ob-body"><div class="ob-label">${opt.l}</div>${opt.d?`<div class="ob-desc">${opt.d}</div>`:''}</div><div class="ob-check"></div>`;
+    btn.addEventListener('click',()=>{wrap.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');profile[stateKey]=opt.v;});
+    wrap.appendChild(btn);
+  });
+  container.appendChild(wrap);
+}
+
+window.setU=function(field,unit,btn){
+  btn.closest('.unit-toggle').querySelectorAll('.ut-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(field==='h'){profile.heightUnit=unit;document.getElementById('u-h').textContent=unit;document.getElementById('i-h').placeholder=unit==='cm'?'175':"70";}
+  else{profile.weightUnit=unit;document.getElementById('u-w').textContent=unit;document.getElementById('u-w').textContent=unit;document.getElementById('i-w').placeholder=unit==='kg'?'75':'165';}
+};
+
+function buildIntake(){
+  const container=document.getElementById('intake-steps-container');container.innerHTML='';
+  INTAKE_STEPS.forEach((step,i)=>{
+    const div=document.createElement('div');
+    div.className='intake-body'+(i>0?' gone':'');div.id='istep-'+i;
+    div.style.padding='2.5rem 1.75rem';
+    div.innerHTML=`<div class="i-tag">${step.tag}</div><div class="i-title">${step.title}</div><div class="i-sub">${step.sub}</div><div id="ifield-${i}"></div>`;
+    container.appendChild(div);
+    step.build(document.getElementById('ifield-'+i));
+  });
+}
+
+function updateIntakeUI(){
+  document.getElementById('it-step').textContent=INTAKE_STEPS[intakeStep].tag;
+  document.getElementById('it-count').textContent=`${intakeStep+1} of ${INTAKE_STEPS.length}`;
+  document.getElementById('intake-prog').style.width=((intakeStep+1)/INTAKE_STEPS.length*100)+'%';
+  document.getElementById('btn-back').style.display=intakeStep>0?'block':'none';
+  document.getElementById('btn-next').textContent=intakeStep===INTAKE_STEPS.length-1?'Start my assessment →':'Continue →';
+}
+
+function intakeNext(){
+  if(!INTAKE_STEPS[intakeStep].validate())return;
+  if(intakeStep===2){const hv=document.getElementById('i-h');const wv=document.getElementById('i-w');if(hv)profile.height=parseFloat(hv.value)||null;if(wv)profile.weight=parseFloat(wv.value)||null;}
+  if(intakeStep<INTAKE_STEPS.length-1){document.getElementById('istep-'+intakeStep).classList.add('gone');intakeStep++;document.getElementById('istep-'+intakeStep).classList.remove('gone');updateIntakeUI();window.scrollTo(0,0);}
+  else{if(profile.conditions.length===0)profile.conditions=['none'];beginQuiz();}
+}
+
+function intakeBack(){
+  if(intakeStep>0){document.getElementById('istep-'+intakeStep).classList.add('gone');intakeStep--;document.getElementById('istep-'+intakeStep).classList.remove('gone');updateIntakeUI();}
+}
+
+function startQuiz(){answers={};curQ=0;intakeStep=0;buildIntake();updateIntakeUI();showScreen('intake');}
+
+/* ── QUIZ ── */
+function buildDots(){
+  const bar=document.getElementById('dots-bar');bar.innerHTML='';
+  for(let i=0;i<21;i++){const d=document.createElement('div');d.className='qdot';d.id='dot'+i;bar.appendChild(d);}
+}
+
+function beginQuiz(){buildDots();showScreen('quiz');renderQ();}
+
+function renderQ(){
+  if(curQ>=QS.length){buildResults();showScreen('results');return;}
+  const q=QS[curQ];
+  const p=PILLARS.find(x=>x.id===q.pillar);
+  document.getElementById('qh-icon').innerHTML=ICON(p.gold?'#c9972a':'rgba(201,151,42,.6)',14,p.id);
+  document.getElementById('qh-name').textContent=p.word;
+  document.getElementById('qh-count').querySelector('#qh-n').textContent=curQ+1;
+  document.getElementById('q-ptag').textContent=p.word+' — '+p.sub;
+  document.getElementById('q-num').textContent=`Question ${curQ+1} of 21`;
+  document.getElementById('q-text').textContent=q.text(profile);
+  document.getElementById('quiz-prog').style.width=((curQ+1)/21*100)+'%';
+  ['btn-y','btn-n'].forEach(id=>document.getElementById(id).classList.remove('sel'));
+  document.getElementById('insight-bar').classList.remove('show');
+  for(let i=0;i<21;i++){const d=document.getElementById('dot'+i);if(!d)continue;d.classList.remove('lit','now');if(i<curQ)d.classList.add('lit');else if(i===curQ)d.classList.add('now');}
+  window.scrollTo(0,0);
+}
+
+function doAnswer(val){
+  const q=QS[curQ];
+  answers[q.key]={val,weight:q.w,pillar:q.pillar};
+  document.getElementById('btn-y').classList.toggle('sel',val);
+  document.getElementById('btn-n').classList.toggle('sel',!val);
+  document.getElementById('ib-text').textContent=val?q.yes(profile):q.no(profile);
+  document.getElementById('ib-src').textContent=q.src;
+  document.getElementById('insight-bar').classList.add('show');
+  curQ++;
+  setTimeout(()=>{if(curQ>=QS.length){buildResults();showScreen('results');}else renderQ();},900);
+}
+
+/* ── SCORING ── */
+function getPillarScore(id){
+  const qs=QS.filter(q=>q.pillar===id);
+  const max=qs.reduce((a,q)=>a+q.w,0);
+  let pts=0;qs.forEach(q=>{if(answers[q.key]&&answers[q.key].val)pts+=q.w;});
+  return Math.round(pts/max*100);
+}
+
+function getWeakPillar(){
+  let worst=null,worstAdj=101;
+  PILLARS.forEach(p=>{
+    const sc=getPillarScore(p.id);
+    const adj=sc-((CASCADE[p.id]||[]).length*3);
+    if(adj<worstAdj){worstAdj=adj;worst=p;}
+  });
+  return worst||PILLARS[0];
+}
+
+function getOverall(){return Math.round(PILLARS.reduce((a,p)=>a+getPillarScore(p.id),0)/PILLARS.length);}
+
+/* ── RESULTS ── */
+function buildResults(){
+  const overall=getOverall();
+  const arch=ARCHETYPES.find(a=>overall>=a.min)||ARCHETYPES[3];
+  document.getElementById('rh-name').textContent=arch.name;
+  document.getElementById('rh-line').textContent=arch.tag;
+
+  /* Score card */
+  const scores=PILLARS.map(p=>({...p,score:getPillarScore(p.id)}));
+  const scWrap=document.getElementById('scorecard-wrap');
+  const cols=scores.map(s=>{
+    const color=s.score>=70?'#c9972a':s.score>=45?'#d68910':'#c0392b';
+    return `<div class="scp-col"><div class="scp-bw"><div class="scp-bar" style="height:${s.score}%;background:${color}"></div></div>${ICON(color,12,s.id)}<div class="scp-pct" style="color:${color}">${s.score}%</div><div class="scp-word">${s.word}</div></div>`;
+  }).join('');
+  scWrap.innerHTML=`<div class="scorecard"><div class="sc-who">${profile.age?profile.age+' · ':''} ${profile.sex||''} ${profile.weightDisplay!=='your weight'?'· '+profile.weightDisplay:''}</div><div class="sc-overall"><div class="sc-ov-num">${overall}%</div><div class="sc-ov-label">Overall health score</div></div><div class="sc-cols">${cols}</div><button class="sc-share" onclick="shareScore(${overall})">Share my 7Health reading →</button></div>`;
+
+  /* Priority */
+  const weak=getWeakPillar();
+  const wsc=getPillarScore(weak.id);
+  const coach=PILLAR_COACHING[weak.id];
+  const good=wsc>=60;
+  document.getElementById('priority-wrap').innerHTML=`<div class="priority-block"><div class="pb-tag">Your #1 priority right now</div><div class="pb-title">${weak.word}</div><div class="pb-body">${good?coach.hi:coach.lo}${(CASCADE[weak.id]||[]).length>0?'<br><br>Why this first: a low score here directly impacts your '+(CASCADE[weak.id]||[]).map(x=>x.toUpperCase()).join(', ')+' pillars simultaneously.':''}</div><div class="pb-action"><div class="pa-label">Your action — start today</div><div class="pa-text">${good?coach.action_hi:coach.action_lo}</div></div><button class="pb-btn" onclick="copyPrompt('${weak.id}')">Copy your personalised AI coaching prompt →</button></div>`;
+
+  /* All pillars */
+  document.getElementById('domains-wrap').innerHTML=`<div class="domains-section"><div class="ds-label">Your full seven-pillar picture</div>${PILLARS.map(p=>{const sc=getPillarScore(p.id);const color=sc>=70?'#2a8a4a':sc>=45?'#d68910':'#c0392b';const coach=PILLAR_COACHING[p.id];return `<div class="d-row" id="dr-${p.id}"><div class="d-top"><div class="d-left">${ICON(p.gold?'#c9972a':'rgba(255,255,255,.6)',16,p.id)}<div class="d-name">${p.word}</div></div><div class="d-score" style="color:${color}">${sc}%</div></div><div class="d-bar-wrap"><div class="d-bar-fill" style="width:${sc}%;background:${color}"></div></div><div class="d-text">${sc>=60?coach.hi:coach.lo} ${sc>=60?coach.action_hi:coach.action_lo}</div><div class="d-tog" onclick="toggleD('${p.id}')">+ get your personalised AI prompt</div><div class="d-expand" id="de-${p.id}"><div class="de-label">Paste into ChatGPT or Claude</div><div class="de-prompt">${coach.prompt(profile)}</div><button class="de-copy" onclick="copyPrompt('${p.id}')">Copy prompt</button></div></div>`}).join('')}</div>`;
+}
+
+function toggleD(id){const exp=document.getElementById('de-'+id);const tog=document.querySelector(`#dr-${id} .d-tog`);const open=exp.classList.toggle('open');tog.textContent=open?'− hide prompt':'+ get your personalised AI prompt';}
+
+function copyPrompt(id){
+  const text=PILLAR_COACHING[id].prompt(profile);
+  navigator.clipboard.writeText(text).then(()=>{
+    const btns=document.querySelectorAll('.de-copy');
+    btns.forEach(b=>{if(b.closest(`#de-${id}`)){b.textContent='Copied ✓';b.classList.add('done');setTimeout(()=>{b.textContent='Copy prompt';b.classList.remove('done');},2200);}});
+    const pb=document.getElementById('priority-wrap')?.querySelector('.pb-btn');
+    if(pb&&pb.textContent.includes('Copy')){pb.textContent='Copied ✓';setTimeout(()=>pb.textContent='Copy your personalised AI coaching prompt →',2200);}
+  });
+}
+
+function shareScore(overall){
+  const text=`My 7Health score: ${overall}%\n\nMy weakest pillar: ${getWeakPillar().word}\n\nWhat's yours? 7health.co`;
+  if(navigator.share){navigator.share({title:'My 7Health Reading',text,url:'https://7health.co'}).catch(()=>{});}
+  else{navigator.clipboard.writeText(text).then(()=>alert('Score copied — paste it anywhere to share!'));}
+}
+
+/* ── EMAIL ── */
+function submitEmail(){
+  const inp=document.getElementById('em-input');const val=inp.value.trim();
+  if(!val||!val.includes('@')){inp.style.borderColor='#c9972a';inp.focus();return;}
+  inp.closest('.em-row').style.display='none';
+  document.getElementById('em-success').style.display='block';
+  console.log('Email captured:',val);
+}
+document.getElementById('em-input').addEventListener('keydown',e=>{if(e.key==='Enter')submitEmail();});
+</script>
+</body>
+</html>
