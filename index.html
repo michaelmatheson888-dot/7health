@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7Health   Know Yourself</title>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@200;300;400;500;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f2ec;--bg2:#ede9e0;--bg3:#fff;--ink:#080608;--ink2:rgba(8,6,8,.55);--ink3:rgba(8,6,8,.3);
+  --rule:rgba(8,6,8,.08);--rule2:rgba(8,6,8,.04);--gold:#C4922A;--mint:#00E5A0;--purple:#B44FFF;
+  --score-c:#C4922A;--btn-bg:#080608;--btn-txt:#f5f2ec;--card-bg:#fff;--card-bg2:#f5f2ec;
+  --insight-bg:rgba(196,146,42,.06);--insight-border:rgba(196,146,42,.15);
+}
+[data-theme="dark"]{
+  --bg:#0D0A1E;--bg2:#0A0818;--bg3:rgba(255,255,255,.04);--ink:#ffffff;--ink2:rgba(255,255,255,.55);
+  --ink3:rgba(255,255,255,.25);--rule:rgba(255,255,255,.07);--rule2:rgba(255,255,255,.03);
+  --score-c:#ffffff;--btn-bg:#00E5A0;--btn-txt:#0D0A1E;--card-bg:rgba(255,255,255,.04);
+  --card-bg2:rgba(255,255,255,.02);--insight-bg:rgba(180,79,255,.08);--insight-border:rgba(180,79,255,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;transition:background .35s,color .35s;min-height:100vh;}
+.gone{display:none!important;}
+@keyframes up{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.fade{animation:up .5s ease both;}
+.d1{animation-delay:.1s;}.d2{animation-delay:.2s;}.d3{animation-delay:.35s;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--rule);padding:.85rem 1.75rem;display:flex;align-items:center;justify-content:space-between;transition:background .35s;}
+.logo{font-family:'Urbanist',sans-serif;font-size:13px;font-weight:400;letter-spacing:.5em;text-transform:uppercase;color:var(--ink);cursor:pointer;padding-right:.5em;}
+.nav-right{display:flex;align-items:center;gap:1.25rem;}
+.toggle-wrap{display:flex;align-items:center;gap:.4rem;cursor:pointer;}
+.toggle-track{width:36px;height:20px;background:var(--rule);border:1px solid var(--rule);border-radius:20px;position:relative;transition:all .3s;cursor:pointer;flex-shrink:0;}
+.toggle-thumb{width:14px;height:14px;background:var(--gold);border-radius:50%;position:absolute;top:2px;left:2px;transition:transform .3s;}
+[data-theme="dark"] .toggle-thumb{transform:translateX(16px);background:var(--mint);}
+.toggle-label{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);}
+.nav-cta{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:9px 22px;background:var(--btn-bg);color:var(--btn-txt);border:none;cursor:pointer;border-radius:100px;transition:all .2s;}
+.nav-cta:hover{opacity:.85;}
+
+/* LANDING */
+.land-hero{min-height:calc(100vh - 57px);display:grid;grid-template-columns:1fr 1fr;align-items:center;}
+.land-left{padding:5rem 3rem 5rem 3.5rem;}
+.land-tag{display:inline-flex;align-items:center;gap:.5rem;padding:5px 13px;background:var(--card-bg);border:1px solid var(--rule);border-radius:100px;margin-bottom:1.75rem;}
+.land-tag-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);}
+.land-tag-txt{font-size:9px;font-weight:600;letter-spacing:.06em;color:var(--ink3);}
+.land-h1{font-family:'Urbanist',sans-serif;font-size:clamp(44px,6vw,74px);font-weight:900;line-height:.92;letter-spacing:-2px;color:var(--ink);margin-bottom:1rem;}
+.land-h1 .g{color:var(--gold);}
+[data-theme="dark"] .land-h1 .g{color:var(--mint);}
+.land-sub{font-size:16px;color:var(--ink2);line-height:1.7;max-width:400px;margin-bottom:2.5rem;font-weight:300;}
+.land-sub strong{color:var(--ink);font-weight:600;}
+.btn-main{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.04em;padding:17px 42px;background:var(--btn-bg);color:var(--btn-txt);border:none;cursor:pointer;border-radius:100px;transition:all .2s;display:inline-block;}
+.btn-main:hover{opacity:.85;transform:translateY(-1px);}
+.land-note{font-size:11px;color:var(--ink3);margin-top:.75rem;}
+.land-stat{display:flex;gap:2rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--rule);}
+.ls{text-align:center;}
+.ls-num{font-family:'Urbanist',sans-serif;font-size:32px;font-weight:900;color:var(--gold);line-height:1;letter-spacing:-1px;}
+.ls-label{font-size:9px;color:var(--ink3);font-weight:400;margin-top:.2rem;line-height:1.4;}
+.land-right{padding:3rem 3rem 3rem 0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem;}
+.pc{background:var(--card-bg);border:1px solid var(--rule);padding:1rem 1.1rem;cursor:pointer;transition:all .2s;}
+.pc:hover{border-color:var(--gold);}
+[data-theme="dark"] .pc:hover{border-color:var(--mint);}
+.pc.feat{background:linear-gradient(135deg,rgba(180,79,255,.1),rgba(180,79,255,.03));border-color:rgba(180,79,255,.2);}
+.pc-r{font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.2rem;}
+.pc-n{font-family:'Urbanist',sans-serif;font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.25px;}
+.pc.feat .pc-n{color:var(--purple);}
+.pc-s{font-size:9px;color:var(--ink3);font-weight:400;margin-top:.1rem;}
+.pc-full{grid-column:1/-1;}
+
+/* MARQUEE */
+.marquee{overflow:hidden;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:.65rem 0;background:var(--bg2);}
+.marquee-inner{display:flex;gap:2rem;animation:scroll 24s linear infinite;white-space:nowrap;}
+@keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.mi{font-family:'Urbanist',sans-serif;font-size:10px;font-weight:500;color:var(--ink3);flex-shrink:0;letter-spacing:.06em;text-transform:uppercase;}
+.ms{color:var(--gold);flex-shrink:0;opacity:.4;}
+
+/* HOW IT WORKS */
+.hiw{padding:5rem 3.5rem;border-top:1px solid var(--rule);}
+.sec-over{font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+.sec-title{font-family:'Urbanist',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:900;color:var(--ink);line-height:.95;letter-spacing:-1px;margin-bottom:.75rem;}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);margin-top:2.5rem;}
+.step{background:var(--bg);padding:2rem 1.75rem;}
+.step-n{font-family:'Urbanist',sans-serif;font-size:48px;font-weight:900;color:var(--rule);line-height:1;margin-bottom:.85rem;transition:color .3s;}
+.step:hover .step-n{color:var(--gold);}
+[data-theme="dark"] .step:hover .step-n{color:var(--mint);}
+.step-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:.4rem;}
+.step-body{font-size:13px;color:var(--ink2);line-height:1.65;font-weight:300;}
+
+/* MANIFESTO */
+.manifesto{background:#080608;padding:5rem 3.5rem;text-align:center;}
+.mf-over{font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,229,160,.6);margin-bottom:1.5rem;}
+.mf-lines{display:flex;flex-direction:column;gap:.5rem;max-width:680px;margin:0 auto 3rem;}
+.mf-line{font-family:'Urbanist',sans-serif;font-size:clamp(18px,3vw,26px);font-weight:700;color:rgba(255,255,255,.25);line-height:1.2;letter-spacing:-.25px;transition:color .3s;}
+.mf-line.bright{color:#fff;}
+.mf-line .g{color:#00E5A0;}
+.mf-line .p{color:#B44FFF;}
+.cta-block{padding:5rem 3.5rem;text-align:center;border-top:1px solid var(--rule);}
+.cta-h{font-family:'Urbanist',sans-serif;font-size:clamp(32px,5vw,56px);font-weight:900;color:var(--ink);line-height:.93;letter-spacing:-1.5px;margin-bottom:.85rem;}
+.cta-sub{font-size:15px;color:var(--ink2);max-width:420px;margin:0 auto 2.25rem;line-height:1.65;font-weight:300;}
+footer{padding:1.75rem 3.5rem;border-top:1px solid var(--rule);display:flex;align-items:center;justify-content:space-between;}
+.f-logo{font-family:'Urbanist',sans-serif;font-size:12px;font-weight:400;letter-spacing:.5em;text-transform:uppercase;color:var(--ink);}
+.f-tag{font-size:10px;color:var(--ink3);font-weight:300;}
+
+/* PROGRESS BAR */
+.prog-wrap{background:var(--bg);border-bottom:1px solid var(--rule);position:sticky;top:57px;z-index:50;}
+.prog-top{padding:.65rem 1.75rem;display:flex;align-items:center;justify-content:space-between;}
+.pt-left{display:flex;align-items:center;gap:.65rem;}
+.pt-stage{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);}
+[data-theme="dark"] .pt-stage{color:var(--purple);}
+.pt-step{font-size:9px;color:var(--ink3);}
+.prog-bar{height:2px;background:var(--rule);}
+.prog-fill{height:100%;background:var(--gold);transition:width .4s ease;}
+[data-theme="dark"] .prog-fill{background:var(--mint);}
+
+/* QUIZ SCREENS */
+.quiz-screen{min-height:calc(100vh - 57px);background:var(--bg);}
+.qz-body{max-width:600px;margin:0 auto;padding:3.5rem 1.75rem 1.5rem;}
+.qz-kicker{font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.85rem;}
+[data-theme="dark"] .qz-kicker{color:var(--purple);}
+.qz-title{font-family:'Urbanist',sans-serif;font-size:clamp(24px,4.5vw,38px);font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.75px;margin-bottom:.5rem;}
+.qz-sub{font-size:14px;color:var(--ink2);line-height:1.65;margin-bottom:2rem;font-weight:300;}
+.mc-wrap{display:flex;flex-direction:column;gap:.45rem;}
+.mc-opt{display:flex;align-items:flex-start;gap:.85rem;padding:1rem 1.1rem;background:var(--card-bg);border:1.5px solid var(--rule);cursor:pointer;transition:all .18s;width:100%;font-family:'DM Sans',sans-serif;text-align:left;border-radius:6px;}
+.mc-opt:hover{border-color:var(--gold);}
+[data-theme="dark"] .mc-opt:hover{border-color:var(--mint);}
+.mc-opt.sel{border-color:var(--gold);background:rgba(196,146,42,.06);}
+[data-theme="dark"] .mc-opt.sel{border-color:var(--mint);background:rgba(0,229,160,.05);}
+.mc-letter{font-family:'Urbanist',sans-serif;font-size:11px;font-weight:800;color:var(--ink3);flex-shrink:0;width:20px;margin-top:2px;transition:color .15s;}
+.mc-opt.sel .mc-letter{color:var(--gold);}
+[data-theme="dark"] .mc-opt.sel .mc-letter{color:var(--mint);}
+.mc-text{font-size:14px;font-weight:500;color:var(--ink);line-height:1.4;flex:1;}
+.txt-input{width:100%;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:400;color:var(--ink);padding:.85rem 1rem;background:var(--card-bg);border:1.5px solid var(--rule);outline:none;transition:border-color .2s;border-radius:6px;resize:none;}
+.txt-input:focus{border-color:var(--gold);}
+[data-theme="dark"] .txt-input:focus{border-color:var(--mint);}
+.txt-input::placeholder{color:var(--ink3);}
+.num-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;}
+.num-group{display:flex;flex-direction:column;gap:.35rem;}
+.num-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);}
+.num-wrap{display:flex;align-items:center;border:1.5px solid var(--rule);background:var(--card-bg);border-radius:6px;overflow:hidden;transition:border-color .2s;}
+.num-wrap:focus-within{border-color:var(--gold);}
+[data-theme="dark"] .num-wrap:focus-within{border-color:var(--mint);}
+.num-inp{flex:1;font-family:'Urbanist',sans-serif;font-size:24px;font-weight:300;color:var(--ink);padding:.65rem .85rem;background:transparent;border:none;outline:none;width:100%;}
+.num-unit{font-size:10px;font-weight:600;color:var(--ink3);padding:.65rem .85rem;border-left:1px solid var(--rule);}
+.unit-toggle{display:flex;gap:.25rem;margin-top:.3rem;}
+.ut-btn{font-family:'DM Sans',sans-serif;font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 11px;border:1.5px solid var(--rule);cursor:pointer;color:var(--ink3);background:transparent;border-radius:100px;transition:all .15s;}
+.ut-btn.on{background:var(--gold);color:#fff;border-color:var(--gold);}
+[data-theme="dark"] .ut-btn.on{background:var(--mint);color:#0D0A1E;border-color:var(--mint);}
+.opt-note{font-size:11px;color:var(--ink3);font-style:italic;margin-top:.5rem;font-weight:300;}
+.skip-link{font-size:11px;color:var(--ink3);text-decoration:underline;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;margin-top:.65rem;display:inline-block;}
+.skip-link:hover{color:var(--gold);}
+
+/* INSIGHT POPUP */
+.insight-block{display:none;background:var(--insight-bg);border-top:1px solid var(--insight-border);animation:fadeIn .4s ease;}
+.insight-block.show{display:block;}
+.ins-inner{max-width:600px;margin:0 auto;padding:1.5rem 1.75rem;}
+.ins-who{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;}
+[data-theme="dark"] .ins-who{color:var(--purple);}
+.ins-text{font-size:15px;font-weight:400;font-style:italic;color:var(--ink);line-height:1.7;margin-bottom:.35rem;}
+.ins-ref{font-size:10px;color:var(--ink3);font-weight:300;}
+
+/* NEXT BUTTON */
+.qz-nav{max-width:600px;margin:0 auto;padding:1rem 1.75rem 2.5rem;display:flex;flex-direction:column;gap:.5rem;}
+.btn-next{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:15px;background:var(--btn-bg);color:var(--btn-txt);border:none;border-radius:100px;cursor:pointer;transition:all .2s;width:100%;}
+.btn-next:hover{opacity:.85;}
+.btn-back{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:11px;background:transparent;color:var(--ink3);border:1.5px solid var(--rule);border-radius:100px;cursor:pointer;transition:all .2s;width:100%;}
+.btn-back:hover{border-color:var(--gold);color:var(--gold);}
+[data-theme="dark"] .btn-back:hover{border-color:var(--mint);color:var(--mint);}
+.err-msg{font-size:12px;color:var(--gold);font-weight:600;display:none;text-align:center;}
+.err-msg.show{display:block;}
+
+/* LOADING */
+.loading-screen{min-height:calc(100vh - 57px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 2rem;background:linear-gradient(160deg,#1A0A2E 0%,#0D0A1E 55%,#0A0818 100%);}
+.loading-logo{font-family:'Urbanist',sans-serif;font-size:12px;font-weight:400;letter-spacing:.5em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:2.5rem;}
+.loading-title{font-family:'Urbanist',sans-serif;font-size:clamp(28px,5vw,42px);font-weight:800;color:#fff;line-height:1;letter-spacing:-1px;margin-bottom:.75rem;}
+.loading-sub{font-size:14px;color:rgba(255,255,255,.4);font-weight:300;line-height:1.65;max-width:360px;margin:0 auto 2.5rem;}
+.loading-bar-wrap{width:280px;height:2px;background:rgba(255,255,255,.1);margin:0 auto 1rem;border-radius:2px;overflow:hidden;}
+.loading-bar{height:100%;background:linear-gradient(90deg,#00E5A0,#B44FFF);width:0%;transition:width .4s ease;border-radius:2px;}
+.loading-msg{font-size:11px;color:rgba(255,255,255,.3);font-weight:300;letter-spacing:.04em;min-height:18px;}
+
+/* RESULTS */
+.results-screen{background:var(--bg);}
+.arch-hero{background:linear-gradient(160deg,#1A0A2E 0%,#0D0A1E 55%,#0A0818 100%);padding:5rem 2rem;text-align:center;position:relative;overflow:hidden;}
+.arch-hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:600px;height:500px;background:radial-gradient(ellipse,rgba(0,229,160,.1) 0%,transparent 65%);pointer-events:none;}
+.ah-tag{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(0,229,160,.6);margin-bottom:1.25rem;position:relative;}
+.motivation-block{background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.15);padding:1.1rem 1.5rem;max-width:520px;margin:0 auto 2.5rem;position:relative;}
+.mb-text{font-size:15px;color:rgba(255,255,255,.75);line-height:1.7;font-weight:300;font-style:italic;}
+.ah-name{font-family:'Urbanist',sans-serif;font-size:clamp(52px,10vw,88px);font-weight:900;color:#fff;line-height:.9;letter-spacing:-3px;margin-bottom:.65rem;position:relative;}
+.ah-score{font-family:'Urbanist',sans-serif;font-size:clamp(22px,4vw,34px);font-weight:200;color:rgba(255,255,255,.4);letter-spacing:-.5px;position:relative;}
+.ah-rule{width:48px;height:2px;background:linear-gradient(90deg,#00E5A0,#B44FFF);margin:1.5rem auto;position:relative;}
+.ah-desc{font-size:clamp(15px,2.5vw,18px);font-weight:300;font-style:italic;color:rgba(255,255,255,.5);max-width:560px;margin:0 auto;line-height:1.75;position:relative;}
+.res-body{max-width:660px;margin:0 auto;padding:2.5rem 1.75rem;}
+.res-sec{font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:2rem 0 .85rem;display:flex;align-items:center;gap:.6rem;}
+[data-theme="dark"] .res-sec{color:var(--purple);}
+.res-sec::after{content:'';flex:1;height:1px;background:var(--rule);}
+.score-cards{display:grid;grid-template-columns:repeat(4,1fr);background:var(--card-bg);border:1px solid var(--rule);}
+.sc{padding:1.25rem .75rem;border-right:1px solid var(--rule);text-align:center;}
+.sc:last-child{border-right:none;}
+.sc-lbl{font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.5rem;}
+.sc-num{font-family:'Urbanist',sans-serif;font-size:clamp(38px,5vw,52px);font-weight:200;color:var(--score-c);line-height:1;letter-spacing:-2px;}
+.bar-chart{background:var(--card-bg);border:1px solid var(--rule);padding:1.5rem;margin-bottom:.5rem;}
+.bc-name{font-size:11px;color:var(--ink3);text-align:center;margin-bottom:1.25rem;letter-spacing:.02em;}
+.bcb{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;}
+.bcb:last-child{margin-bottom:0;}
+.bcb-lbl{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;width:64px;flex-shrink:0;}
+.bcb-track{flex:1;height:4px;background:var(--rule);border-radius:2px;overflow:hidden;}
+.bcb-fill{height:100%;border-radius:2px;transition:width 1.2s ease;}
+.bcb-pct{font-family:'Urbanist',sans-serif;font-size:13px;font-weight:300;width:30px;text-align:right;flex-shrink:0;}
+.mirror-block{background:var(--bg2);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.5rem;margin-bottom:.5rem;}
+[data-theme="dark"] .mirror-block{border-left-color:var(--mint);}
+.mb-tag{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;}
+[data-theme="dark"] .mb-tag{color:var(--mint);}
+.mb-body{font-size:14px;color:var(--ink2);line-height:1.8;font-weight:300;font-style:italic;}
+.one-thing{background:#080608;padding:2rem;margin-bottom:.5rem;}
+.ot-tag{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,229,160,.7);margin-bottom:.5rem;}
+.ot-pillar{font-family:'Urbanist',sans-serif;font-size:26px;font-weight:800;color:#fff;letter-spacing:-.5px;margin-bottom:.5rem;}
+.ot-desc{font-size:14px;color:rgba(255,255,255,.45);line-height:1.7;margin-bottom:1.25rem;font-weight:300;}
+.ot-action{font-size:16px;font-weight:600;color:#fff;line-height:1.55;}
+.teaser-wrap{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.5rem;}
+.teaser{background:var(--card-bg);border:1px solid var(--rule);border-left:3px solid transparent;padding:1.1rem 1.25rem;cursor:pointer;transition:all .2s;}
+.teaser.open{border-left-color:var(--gold);}
+[data-theme="dark"] .teaser.open{border-left-color:var(--mint);}
+.teaser-header{display:flex;align-items:center;gap:.75rem;}
+.th-name{font-family:'Urbanist',sans-serif;font-size:14px;font-weight:700;flex:1;letter-spacing:-.1px;}
+.th-bar{width:72px;height:3px;background:var(--rule);overflow:hidden;flex-shrink:0;}
+.th-fill{height:100%;transition:width 1.2s ease;}
+.th-score{font-family:'Urbanist',sans-serif;font-size:17px;font-weight:200;width:36px;text-align:right;flex-shrink:0;}
+.teaser-body{display:none;padding-top:.85rem;border-top:1px solid var(--rule);margin-top:.85rem;}
+.teaser.open .teaser-body{display:block;}
+.tb-preview{font-size:13px;color:var(--ink2);line-height:1.65;margin-bottom:.65rem;font-weight:300;font-style:italic;}
+.tb-next{font-size:12px;font-weight:600;color:var(--ink);line-height:1.55;padding:.75rem .9rem;background:var(--card-bg2);border-left:2px solid var(--gold);}
+[data-theme="dark"] .tb-next{border-left-color:var(--mint);}
+.immediate{background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.15);padding:1.75rem;margin-bottom:.5rem;text-align:center;}
+.imm-tag{font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#00E5A0;margin-bottom:.5rem;}
+.imm-title{font-family:'Urbanist',sans-serif;font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.5px;margin-bottom:.4rem;}
+.imm-body{font-size:14px;color:var(--ink2);line-height:1.65;margin-bottom:1.25rem;font-weight:300;}
+.btn-immediate{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:15px 40px;background:var(--btn-bg);color:var(--btn-txt);border:none;border-radius:100px;cursor:pointer;transition:all .2s;}
+.btn-immediate:hover{opacity:.85;}
+.unlock-block{background:linear-gradient(135deg,#1A0A2E,#0D0A1E);border:1px solid rgba(255,255,255,.07);padding:2rem;margin-bottom:.5rem;text-align:center;}
+.ul-tag{font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(180,79,255,.7);margin-bottom:.65rem;}
+.ul-title{font-family:'Urbanist',sans-serif;font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px;margin-bottom:.4rem;}
+.ul-sub{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:1.5rem;line-height:1.65;font-weight:300;}
+.ul-features{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1.5rem;text-align:left;}
+.ul-feat{font-size:12px;color:rgba(255,255,255,.5);display:flex;gap:.6rem;font-weight:300;}
+.ul-feat .tick{color:#00E5A0;flex-shrink:0;}
+.btn-unlock{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:17px 44px;background:#00E5A0;color:#0D0A1E;border:none;border-radius:100px;cursor:pointer;transition:all .2s;display:block;width:100%;max-width:320px;margin:0 auto 1rem;}
+.btn-unlock:hover{background:#00c98a;}
+.ul-note{font-size:10px;color:rgba(255,255,255,.25);font-weight:300;}
+.email-block{background:var(--card-bg);border:1px solid var(--rule);padding:1.75rem;margin-bottom:.5rem;text-align:center;}
+.eb-title{font-family:'Urbanist',sans-serif;font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.25px;margin-bottom:.3rem;}
+.eb-sub{font-size:13px;color:var(--ink2);margin-bottom:1.25rem;font-weight:300;line-height:1.6;}
+.eb-row{display:flex;gap:.4rem;max-width:400px;margin:0 auto;}
+.eb-inp{flex:1;font-family:'DM Sans',sans-serif;font-size:14px;padding:.8rem 1rem;background:var(--bg);border:1.5px solid var(--rule);color:var(--ink);outline:none;border-radius:6px;transition:border-color .2s;}
+.eb-inp:focus{border-color:var(--gold);}
+[data-theme="dark"] .eb-inp:focus{border-color:var(--mint);}
+.eb-inp::placeholder{color:var(--ink3);}
+.eb-btn{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:.8rem 1.25rem;background:var(--btn-bg);color:var(--btn-txt);border:none;cursor:pointer;border-radius:6px;white-space:nowrap;transition:opacity .2s;}
+.eb-btn:hover{opacity:.85;}
+.eb-note{font-size:10px;color:var(--ink3);margin-top:.65rem;}
+.share-sec{text-align:center;padding:2rem 0 1.5rem;}
+.share-title{font-family:'Urbanist',sans-serif;font-size:18px;font-weight:700;color:var(--ink2);margin-bottom:1.25rem;letter-spacing:-.25px;}
+.btn-share{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:14px 40px;background:var(--btn-bg);color:var(--btn-txt);border:none;border-radius:100px;cursor:pointer;transition:all .2s;margin-bottom:.75rem;}
+.btn-share:hover{opacity:.85;}
+.btn-restart{display:block;font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);cursor:pointer;padding:.5rem;transition:color .2s;background:none;border:none;font-family:'DM Sans',sans-serif;width:100%;}
+.btn-restart:hover{color:var(--gold);}
+[data-theme="dark"] .btn-restart:hover{color:var(--mint);}
+.disclaimer{font-size:10px;color:var(--ink3);line-height:1.7;text-align:center;padding:1.5rem;border-top:1px solid var(--rule);font-weight:300;font-style:italic;max-width:520px;margin:0 auto;}
+
+/* ERROR STATE */
+.ai-error{background:var(--card-bg);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.5rem;margin-bottom:.5rem;}
+.ae-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:.35rem;}
+.ae-body{font-size:12px;color:var(--ink2);line-height:1.65;font-weight:300;}
+
+@media(max-width:768px){
+  .land-hero{grid-template-columns:1fr;}
+  .land-right{display:none;}
+  .land-left{padding:3rem 1.5rem;}
+  .land-stat{gap:1.25rem;}
+  .hiw{padding:3.5rem 1.5rem;}
+  .steps{grid-template-columns:1fr;}
+  .manifesto{padding:3.5rem 1.5rem;}
+  .cta-block{padding:3.5rem 1.5rem;}
+  footer{flex-direction:column;gap:.65rem;text-align:center;padding:1.5rem;}
+  nav{padding:.8rem 1.25rem;}
+  .score-cards{grid-template-columns:repeat(2,1fr);}
+  .sc:nth-child(2){border-right:none;}
+  .sc:nth-child(3){border-top:1px solid var(--rule);}
+  .sc:nth-child(4){border-top:1px solid var(--rule);}
+  .eb-row{flex-direction:column;}
+  .num-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <div class="logo" onclick="goTo('landing')">7HEALTH</div>
+  <div class="nav-right">
+    <div class="toggle-wrap" onclick="toggleTheme()">
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      <span class="toggle-label" id="tog-lbl">Light</span>
+    </div>
+    <button class="nav-cta" onclick="startQuiz()">Take the quiz</button>
+  </div>
+</nav>
+
+<!-- ═══ LANDING ═══ -->
+<div id="screen-landing">
+<div class="land-hero">
+  <div class="land-left">
+    <div class="land-tag fade"><div class="land-tag-dot"></div><div class="land-tag-txt">Free health assessment</div></div>
+    <h1 class="land-h1 fade d1">Get 1%<br>healthier.<br><span class="g">Right now.</span></h1>
+    <p class="land-sub fade d2">Health is everything   your sleep, your food, your relationships, your stress, your purpose. <strong>7Health looks at all of it.</strong> Not just the gym.</p>
+    <div class="fade d3">
+      <button class="btn-main" onclick="startQuiz()">Take the free assessment →</button>
+      <div class="land-note">No signup · No cost · Takes about 15 minutes</div>
+    </div>
+    <div class="land-stat fade d3">
+      <div class="ls"><div class="ls-num">2%</div><div class="ls-label">3 hrs gym is less than<br>2% of your week</div></div>
+      <div class="ls"><div class="ls-num">7</div><div class="ls-label">pillars of health.<br>Most people focus on 1.</div></div>
+      <div class="ls"><div class="ls-num">37×</div><div class="ls-label">1% better every day.<br>37× better in a year.</div></div>
+    </div>
+  </div>
+  <div class="land-right fade d2">
+    <div class="pc" onclick="startQuiz()"><div class="pc-r">I</div><div class="pc-n">Nourish</div><div class="pc-s">Diet and Nutrition</div></div>
+    <div class="pc" onclick="startQuiz()"><div class="pc-r">II</div><div class="pc-n">Move</div><div class="pc-s">Training and Exercise</div></div>
+    <div class="pc" onclick="startQuiz()"><div class="pc-r">III</div><div class="pc-n">Rest</div><div class="pc-s">Sleep and Recovery</div></div>
+    <div class="pc feat" onclick="startQuiz()"><div class="pc-r">IV</div><div class="pc-n">Purpose</div><div class="pc-s">Meaning and Direction</div></div>
+    <div class="pc" onclick="startQuiz()"><div class="pc-r">V</div><div class="pc-n">Mind</div><div class="pc-s">Mental Health</div></div>
+    <div class="pc" onclick="startQuiz()"><div class="pc-r">VI</div><div class="pc-n">Connect</div><div class="pc-s">Relationships</div></div>
+    <div class="pc pc-full" onclick="startQuiz()"><div class="pc-r">VII</div><div class="pc-n">Thrive</div><div class="pc-s">Longevity and Vitality</div></div>
+  </div>
+</div>
+<div class="marquee">
+  <div class="marquee-inner">
+    <span class="mi">Nourish</span><span class="ms">✦</span><span class="mi">Move</span><span class="ms">✦</span><span class="mi">Rest</span><span class="ms">✦</span><span class="mi">Purpose</span><span class="ms">✦</span><span class="mi">Mind</span><span class="ms">✦</span><span class="mi">Connect</span><span class="ms">✦</span><span class="mi">Thrive</span><span class="ms">✦</span><span class="mi">1% Better Every Day</span><span class="ms">✦</span><span class="mi">Evidence Based</span><span class="ms">✦</span><span class="mi">Built for Everyone</span><span class="ms">✦</span><span class="mi">Free Forever</span><span class="ms">✦</span>
+    <span class="mi">Nourish</span><span class="ms">✦</span><span class="mi">Move</span><span class="ms">✦</span><span class="mi">Rest</span><span class="ms">✦</span><span class="mi">Purpose</span><span class="ms">✦</span><span class="mi">Mind</span><span class="ms">✦</span><span class="mi">Connect</span><span class="ms">✦</span><span class="mi">Thrive</span><span class="ms">✦</span><span class="mi">1% Better Every Day</span><span class="ms">✦</span><span class="mi">Evidence Based</span><span class="ms">✦</span><span class="mi">Built for Everyone</span><span class="ms">✦</span><span class="mi">Free Forever</span><span class="ms">✦</span>
+  </div>
+</div>
+<div class="hiw">
+  <div class="sec-over">How it works</div>
+  <h2 class="sec-title">Three steps.<br>Your whole picture.</h2>
+  <div class="steps">
+    <div class="step"><div class="step-n">01</div><div class="step-title">Tell us about your life</div><div class="step-body">Your name, your why, your situation   age, goals, schedule, budget. The more honest you are, the more useful the results.</div></div>
+    <div class="step"><div class="step-n">02</div><div class="step-title">Answer across all seven pillars</div><div class="step-body">Real questions about how you actually live. Not a generic checklist. Specific, adaptive, built around your answers as you go.</div></div>
+    <div class="step"><div class="step-n">03</div><div class="step-title">Get your personal reading</div><div class="step-body">Your seven pillar scores, your archetype, your number one priority and one thing you can do right now. Completely yours.</div></div>
+  </div>
+</div>
+<div class="manifesto">
+  <div class="mf-over">What 7Health believes</div>
+  <div class="mf-lines">
+    <div class="mf-line bright">Health is <span class="g">everything.</span> Not just the gym.</div>
+    <div class="mf-line">The industry made it complicated. <span class="bright" style="color:#fff;">We made it honest.</span></div>
+    <div class="mf-line bright">You can be <span class="g">1% healthier</span> right now.</div>
+    <div class="mf-line">Even if that's just drinking a glass of water.</div>
+    <div class="mf-line">Or going for a walk. Or calling someone you love.</div>
+    <div class="mf-line bright">Small things. <span class="p">Done consistently.</span> Change everything.</div>
+    <div class="mf-line">No one is fully healthy. Not even close.</div>
+    <div class="mf-line bright">But everyone can be <span class="g">better than yesterday.</span></div>
+  </div>
+</div>
+<div class="cta-block">
+  <h2 class="cta-h">Find out where<br>you actually stand.</h2>
+  <p class="cta-sub">An honest health reading built around your real life. Not a generic plan. Just the truth and what to do with it.</p>
+  <button class="btn-main" onclick="startQuiz()">Begin your free assessment →</button>
+</div>
+<footer>
+  <div class="f-logo">7HEALTH</div>
+  <div class="f-tag">Get 1% healthier. Right now.</div>
+  <div class="f-tag">7health.co</div>
+</footer>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div id="screen-quiz" class="gone">
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <div class="pt-left">
+        <div class="pt-stage" id="pt-stage">Welcome</div>
+        <div class="pt-step" id="pt-step"></div>
+      </div>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+  <div class="quiz-screen">
+    <div class="qz-body" id="qz-body"></div>
+    <div class="insight-block" id="insight-block">
+      <div class="ins-inner">
+        <div class="ins-who">7Health</div>
+        <div class="ins-text" id="ins-text"></div>
+        <div class="ins-ref" id="ins-ref"></div>
+      </div>
+    </div>
+    <div class="err-msg" id="err-msg">Please make a selection to continue</div>
+    <div class="qz-nav">
+      <button class="btn-next" id="btn-next" onclick="nextQ()">Continue →</button>
+      <button class="btn-back gone" id="btn-back" onclick="prevQ()">← Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LOADING ═══ -->
+<div id="screen-loading" class="gone">
+  <div class="loading-screen">
+    <div class="loading-logo">7HEALTH</div>
+    <div class="loading-title" id="load-title">Building your reading.</div>
+    <div class="loading-sub" id="load-sub">We are putting everything you shared together into something that is completely yours.</div>
+    <div class="loading-bar-wrap"><div class="loading-bar" id="load-bar"></div></div>
+    <div class="loading-msg" id="load-msg">Reading your answers...</div>
+  </div>
+</div>
+
+<!-- ═══ RESULTS ═══ -->
+<div id="screen-results" class="results-screen gone">
+  <div class="arch-hero">
+    <div class="ah-tag">Your 7Health reading</div>
+    <div class="motivation-block"><div class="mb-text" id="r-motivation"></div></div>
+    <div class="ah-name" id="r-name"></div>
+    <div class="ah-score" id="r-score-hero"></div>
+    <div class="ah-rule"></div>
+    <div class="ah-desc" id="r-desc"></div>
+  </div>
+  <div class="res-body">
+    <div class="res-sec">Your scores</div>
+    <div id="r-score-cards"></div>
+    <div id="r-bar-chart"></div>
+    <div class="res-sec">Your personal health metrics</div>
+    <div id="r-metrics"></div>
+    <div class="res-sec">What this tells us about you</div>
+    <div class="mirror-block">
+      <div class="mb-tag">Your picture</div>
+      <div class="mb-body" id="r-mirror"></div>
+    </div>
+    <div class="res-sec">Your number one priority</div>
+    <div id="r-one-thing"></div>
+    <div class="res-sec">Your seven pillars</div>
+    <div class="teaser-wrap" id="r-teasers"></div>
+    <div class="res-sec">Your next step</div>
+    <div class="immediate" id="r-immediate"></div>
+    <div class="res-sec">Your full personalised plan</div>
+    <div class="unlock-block">
+      <div class="ul-tag">Ready to go deeper</div>
+      <div class="ul-title">Your complete 7Health plan</div>
+      <div class="ul-sub">Built from everything you just shared. Training programme, meal plan, pillar action plans and your 30 day roadmap.</div>
+      <div class="ul-features">
+        <div class="ul-feat"><span class="tick">✓</span>Personalised training programme for your equipment and schedule</div>
+        <div class="ul-feat"><span class="tick">✓</span>Weekly meal plan built around your budget, preferences and macros</div>
+        <div class="ul-feat"><span class="tick">✓</span>30 day action plan for each weak pillar</div>
+        <div class="ul-feat"><span class="tick">✓</span>Science behind every recommendation</div>
+        <div class="ul-feat"><span class="tick">✓</span>Downloadable PDF to keep</div>
+      </div>
+      <button class="btn-unlock" onclick="unlockPlan()">Get my full plan →</button>
+      <div class="ul-note">Coming soon · Join the waitlist below for early access</div>
+    </div>
+    <div class="res-sec">Save your results</div>
+    <div class="email-block">
+      <div class="eb-title">Get your results by email</div>
+      <div class="eb-sub">We will send your full reading and your first action plan. Free, always.</div>
+      <div class="eb-row">
+        <input class="eb-inp" type="email" id="eb-email" placeholder="your@email.com">
+        <button class="eb-btn" onclick="submitEmail()">Send my results</button>
+      </div>
+      <div class="eb-note" id="eb-note">No spam. Unsubscribe any time.</div>
+    </div>
+    <div class="share-sec">
+      <div class="share-title">Know someone who needs to see this?</div>
+      <button class="btn-share" onclick="shareResults()">Share 7Health</button>
+      <button class="btn-restart" onclick="location.reload()">Take it again</button>
+    </div>
+    <div class="disclaimer">7Health provides educational health information only. This is not medical advice and does not replace consultation with a qualified healthcare professional. Always consult your doctor before making significant changes to your health, diet or exercise routine.</div>
+  </div>
+</div>
+
+<script>
+// ── THEME ─────────────────────────────────────
+var theme = localStorage.getItem('7h-theme') || 'light';
+if(theme==='dark') document.documentElement.setAttribute('data-theme','dark');
+document.getElementById('tog-lbl').textContent = theme==='light' ? 'Light' : 'Dark';
+function toggleTheme(){
+  theme = theme==='light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', theme==='dark' ? 'dark' : '');
+  document.getElementById('tog-lbl').textContent = theme==='light' ? 'Light' : 'Dark';
+  localStorage.setItem('7h-theme', theme);
+}
+
+// ── NAV ───────────────────────────────────────
+var currentScreen = 'landing';
+function goTo(id){
+  ['landing','quiz','loading','results'].forEach(function(s){
+    var el = document.getElementById('screen-'+s);
+    if(el) el.classList.toggle('gone', s!==id);
+  });
+  currentScreen = id;
+  window.scrollTo(0,0);
+}
+function startQuiz(){ goTo('quiz'); initQuiz(); }
+
+// ── PROFILE ───────────────────────────────────
+var P = {
+  name:'', why:'', howFeel:'', heardFrom:'', triedBefore:'', whatToday:'',
+  age:null, sex:null, height:null, weight:null, hUnit:'cm', wUnit:'kg',
+  location:'', occupation:'', livingSituation:'', foodBudget:'',
+  conditions:[], dietRestrictions:[], smokes:false, alcohol:'', caffeine:'',
+  healthRating:'',
+  // Deep dive
+  movementType:'', equipment:'', trainingDays:'', movementBarrier:'',
+  foodRelationship:'', cookingFrequency:'', eatingPattern:'', waterIntake:'',
+  proteinAwareness:'', eatingChallenge:'',
+  sleepQuality:'', sleepSchedule:'', bedtimeRoutine:'', stressLevel:'', stressCoping:'',
+  relationships:'', outdoorTime:'', sittingTime:'', selfCare:'', selfCompassion:'',
+  visionOfHealthy:'',
+  get kg(){ return this.wUnit==='kg' ? this.weight : (this.weight ? this.weight/2.205 : null); },
+  get cm(){ return this.hUnit==='cm' ? this.height : (this.height ? this.height*2.54 : null); },
+  get protein(){ var m=this.goalType==='muscle'?2.0:this.goalType==='fat_loss'?1.8:1.6; return this.kg ? Math.round(this.kg*m/5)*5 : 140; },
+  get tdee(){
+    if(!this.kg||!this.cm) return 2200;
+    var bmr = this.sex==='male' ? 88.362+(13.397*this.kg)+(4.799*this.cm)-(5.677*(this.age||25)) : 447.593+(9.247*this.kg)+(3.098*this.cm)-(4.330*(this.age||25));
+    var m = {sedentary:1.2,light:1.375,moderate:1.55,very:1.725,athlete:1.9};
+    return Math.round((bmr*(m[this.activityLevel]||1.55))/50)*50;
+  },
+  goalType:'maintain', activityLevel:'moderate'
+};
+
+// ── SCORES ────────────────────────────────────
+var scores = {nourish:null,move:null,rest:null,purpose:null,mind:null,connect:null,thrive:null};
+var PILLAR_LABELS = {nourish:'Nourish',move:'Move',rest:'Rest',purpose:'Purpose',mind:'Mind',connect:'Connect',thrive:'Thrive'};
+var PILLAR_SUBS = {nourish:'Diet and Nutrition',move:'Training and Exercise',rest:'Sleep and Recovery',purpose:'Meaning and Direction',mind:'Mental Health',connect:'Relationships',thrive:'Longevity'};
+
+// ── QUESTION FLOW ─────────────────────────────
+var allQs = [];
+var curIdx = 0;
+var answers = {};
+
+function initQuiz(){
+  allQs = buildAllQuestions();
+  curIdx = 0;
+  answers = {};
+  scores = {nourish:null,move:null,rest:null,purpose:null,mind:null,connect:null,thrive:null};
+  renderQ();
+}
+
+function buildAllQuestions(){
+  var qs = [];
+
+  // STAGE 1: Name
+  qs.push({id:'ps1',stage:'Welcome',label:'',type:'text',
+    title:'Before we start, what is your name?',
+    sub:'Everything from here gets built around you personally.',
+    placeholder:'Your first name',
+    onAnswer:function(v){ P.name=v; }
+  });
+
+  // STAGE 2: The Why
+  qs.push({id:'ps2',stage:'Your Why',label:'',type:'mc',
+    title:function(){ return P.name+', what is the one thing you most want to change about your health?'; },
+    sub:'Be honest. This shapes everything that comes after.',
+    opts:[
+      {t:'More energy. I am tired of feeling exhausted all the time.',s:0},
+      {t:'Feel better in my body and how I look.',s:0},
+      {t:'Less stress and more control over my life.',s:0},
+      {t:'Live longer and actually stay healthy as I age.',s:0},
+      {t:'Understand why I feel the way I do.',s:0},
+      {t:'I am not sure yet. I just know something needs to change.',s:0}
+    ],
+    onAnswer:function(i){
+      P.goalType=['energy','look','stress','longevity','understand','unsure'][i];
+      P.topWhy=['More energy and vitality','Feeling better in my body','Less stress and more control','Living longer and healthier','Understanding my health','Something needs to change'][i];
+    }
+  });
+
+  qs.push({id:'ps3',stage:'Your Why',label:'',type:'mc',
+    title:'What made you decide to do this today?',
+    opts:[
+      {t:'Something happened recently that made me realise I need to change.',s:0},
+      {t:'I have been putting this off for a while and I am ready to start.',s:0},
+      {t:'Someone I care about encouraged me to try it.',s:0},
+      {t:'I just want to understand myself better right now.',s:0}
+    ],
+    onAnswer:function(i){ P.spark=['trigger','readynow','someone','curious'][i]; }
+  });
+
+  qs.push({id:'ps4',stage:'Your Why',label:'',type:'mc',
+    title:'Have you tried to get healthier before?',
+    opts:[
+      {t:'Yes, many times. I start well but always fall off track.',s:0},
+      {t:'Yes, once or twice. It worked then life got in the way.',s:0},
+      {t:'I have thought about it but never really committed.',s:0},
+      {t:'This is my first time taking it seriously.',s:0}
+    ],
+    onAnswer:function(i){ P.triedBefore=['manytimes','acouple','thought','firsttime'][i]; }
+  });
+
+  qs.push({id:'ps5',stage:'Your Why',label:'',type:'mc',
+    title:'How are you feeling right now, honestly?',
+    opts:[
+      {t:'Motivated. Ready to go.',s:0},
+      {t:'Curious but not sure what to expect.',s:0},
+      {t:'A bit sceptical but open to it.',s:0},
+      {t:'Honestly struggling. I need something to change.',s:0}
+    ],
+    onAnswer:function(i){ P.howFeel=['motivated','curious','sceptical','struggling'][i]; }
+  });
+
+  // STAGE 3: 7Health pitch bridge — personalised to their why
+  qs.push({id:'bridge',stage:'How 7Health Helps',label:'',type:'bridge',
+    title:function(){
+      var goals={
+        energy:'7Health will find exactly what is draining your energy and give you the clearest picture of how to fix it.',
+        look:'7Health looks at all seven things that determine how you feel in your own skin, not just your training and diet.',
+        stress:'7Health identifies exactly which pillars your stress is coming from and gives you a plan that works with your real life.',
+        longevity:'7Health maps the daily habits that compound invisibly into extraordinary long term health.',
+        understand:'7Health gives you the most complete, honest picture of your health you have ever had.',
+        unsure:'7Health finds what is holding you back, even if you cannot name it yet.'
+      };
+      return goals[P.goalType]||'7Health will find exactly where to focus first.';
+    },
+    onAnswer:function(){}
+  });
+
+  // STAGE 4: Data motivation bridge
+  qs.push({id:'data-intro',stage:'About You',label:'',type:'data_intro',
+    title:'Everyone is different.',
+    onAnswer:function(){}
+  });
+
+  // Personal data
+  qs.push({id:'ab1',stage:'About You',label:'',type:'age_input',
+    title:'How old are you?',
+    sub:'Your age affects your protein needs, recovery speed and which health factors matter most right now.',
+    onAnswer:function(v){ P.age=parseInt(v)||null; }
+  });
+  qs.push({id:'ab2',stage:'About You',label:'',type:'mc',
+    title:'What is your biological sex?',
+    sub:'Used only to calculate your accurate physiological targets.',
+    opts:[
+      {t:'Male',s:0},{t:'Female',s:0},{t:'Prefer not to say',s:0}
+    ],
+    onAnswer:function(i){ P.sex=['male','female',null][i]; }
+  });
+  qs.push({id:'ab3',stage:'About You',label:'',type:'bodymetrics',
+    title:'How tall are you and what do you weigh?',
+    sub:'Used to calculate your personal calorie, protein and BMI targets. Stays private always.',
+    optional:true,
+    onAnswer:function(){}
+  });
+  qs.push({id:'ab4',stage:'About You',label:'',type:'text',
+    title:'Where are you based?',
+    sub:'City or country. Your recommendations adapt to where you actually live.',
+    placeholder:'e.g. Sydney, London, Lagos...',
+    optional:true,
+    onAnswer:function(v){ P.location=v; }
+  });
+  qs.push({id:'ab5',stage:'About You',label:'',type:'occupation_input',
+    title:'What do you do for work or study?',
+    sub:'Write it in your own words. The more specific the better.',
+    placeholder:'e.g. Sales manager at a gym, nursing student, freelance designer, stay at home parent...',
+    onAnswer:function(v){ P.occupation=v; }
+  });
+  qs.push({id:'ab5b',stage:'About You',label:'',type:'mc',
+    title:'How many hours a week do you work or study?',
+    opts:[
+      {t:'Under 20 hours. Part time or flexible.',s:0},
+      {t:'Around 40 hours. Standard full time.',s:0},
+      {t:'40 to 55 hours. Busy but managing.',s:0},
+      {t:'55 or more hours. Work takes over most of my time.',s:0}
+    ],
+    onAnswer:function(i){ P.workHours=['under20','40hrs','40to55','55plus'][i]; }
+  });
+  qs.push({id:'ab6',stage:'About You',label:'',type:'mc',
+    title:'What is your living situation?',
+    opts:[
+      {t:'Living alone',s:0},{t:'With a partner',s:0},
+      {t:'With family or parents',s:0},{t:'With housemates',s:0},
+      {t:'With a partner and kids',s:0}
+    ],
+    onAnswer:function(i){ P.livingSituation=['alone','partner','family','housemates','partnerkids'][i]; }
+  });
+  qs.push({id:'ab7',stage:'About You',label:'',type:'mc',
+    title:'What is your rough weekly budget for food?',
+    sub:'Your meal plan gets built around what is actually realistic for you.',
+    opts:[
+      {t:'Under $50 per week',s:0},{t:'$50 to $100 per week',s:0},
+      {t:'$100 to $150 per week',s:0},{t:'$150 or more per week',s:0}
+    ],
+    onAnswer:function(i){ P.foodBudget=['low','medium','good','high'][i]; }
+  });
+
+  // STAGE 3: Health picture
+  qs.push({id:'hp1',stage:'Health Picture',label:'Step 1 of 4',type:'mc',
+    title:'What is your main health goal right now?',
+    opts:[
+      {t:'Lose body fat and feel better in my body',s:0},
+      {t:'Build strength and muscle',s:0},
+      {t:'More energy and better sleep',s:0},
+      {t:'Better mental health and less stress',s:0},
+      {t:'Live longer and age well',s:0},
+      {t:'Just understand myself better right now',s:0}
+    ],
+    onAnswer:function(i){ P.goalType=['fat_loss','muscle','energy','mental','longevity','understand'][i]; }
+  });
+  qs.push({id:'hp2',stage:'Health Picture',label:'Step 2 of 4',type:'mc',
+    title:'How active would you say you are right now?',
+    opts:[
+      {t:'Sedentary. Mostly sitting, very little exercise.',s:0},
+      {t:'Lightly active. Some walking, exercise once or twice a week.',s:0},
+      {t:'Moderately active. Exercise 3 to 4 times a week.',s:0},
+      {t:'Very active. Hard training 5 or more times a week.',s:0}
+    ],
+    onAnswer:function(i){ P.activityLevel=['sedentary','light','moderate','very'][i]; }
+  });
+  qs.push({id:'hp3',stage:'Health Picture',label:'Step 3 of 4',type:'mc_other',
+    title:'Do you have any health conditions or injuries we should know about?',
+    sub:'This helps us keep your plan safe and realistic.',
+    opts:[
+      {t:'No, nothing significant',s:0},
+      {t:'Yes, a physical injury or chronic pain',s:0},
+      {t:'Yes, a mental health condition',s:0},
+      {t:'Yes, both physical and mental health factors',s:0},
+      {t:'Other. I will describe below.',s:0,other:true}
+    ],
+    onAnswer:function(i,v){ P.conditions=v||[null,'physical','mental','both','other'][i]; }
+  });
+  qs.push({id:'hp4',stage:'Health Picture',label:'Step 4 of 4',type:'mc_other',
+    title:'Any dietary requirements or allergies?',
+    sub:'Select the most relevant. You can add detail below if needed.',
+    opts:[
+      {t:'None at all',s:0},{t:'Vegetarian',s:0},{t:'Vegan',s:0},
+      {t:'Gluten free',s:0},{t:'Dairy free',s:0},{t:'Halal or Kosher',s:0},
+      {t:'Other. Please specify.',s:0,other:true}
+    ],
+    onAnswer:function(i,v){ P.dietRestrictions=v||[null,'vegetarian','vegan','glutenfree','dairyfree','halalkosher','other'][i]; }
+  });
+
+  // STAGE 4: 7 Pillar quiz
+  var pillars = [
+    // NOURISH
+    {id:'n1',pillar:'nourish',stage:'Nourish',title:'How would you describe your typical daily diet?',
+     opts:[{t:'I hit my protein targets and eat mostly whole foods',s:100},{t:'Pretty good, mostly healthy with some slip ups',s:66},{t:'Inconsistent. Healthy sometimes, junk food other times.',s:33},{t:'Mostly whatever is quick and convenient',s:0}],
+     insights:['That nutritional foundation is paying off in ways you might not even notice   energy, recovery, body composition.','Consistency is the real skill. The slip ups are not the problem. The pattern around them is.','Inconsistency is almost never a willpower problem. It is an environment problem. What is easiest to reach for shapes everything.','Convenience food is designed to be chosen over real food. That is not a personal failure. It is engineering.'],
+     src:'Hall et al. 2019, Cell Metabolism'},
+    {id:'n2',pillar:'nourish',stage:'Nourish',title:'How much protein do you eat on a typical day?',
+     opts:[{t:'I actively hit a protein target every day',s:100},{t:'I eat protein but do not really track it',s:66},{t:'I do not think much about protein at all',s:33},{t:'I rarely eat much protein deliberately',s:0}],
+     insights:['Protein is the single highest leverage nutritional variable. You are leading with the most important thing.','Awareness is the gap. Most people who do not track eat about half of what they actually need.','Protein is the most under eaten macronutrient in most diets. It affects body composition, hunger and recovery more than anything else.','This is the number one nutritional gap in most people\'s diets. The good news is it is also the easiest to fix.'],
+     src:'Stuart Phillips, McMaster University'},
+    {id:'n3',pillar:'nourish',stage:'Nourish',title:'How many different plant foods do you eat in a typical week?',
+     opts:[{t:'30 or more. I eat a huge variety.',s:100},{t:'Around 15 to 20 different plants',s:66},{t:'Maybe 5 to 10. I stick to the same ones.',s:33},{t:'Barely any. Plants are not really a focus.',s:0}],
+     insights:['30 or more plant foods weekly is the gold standard for gut microbiome diversity. Your immune system, mood and metabolism all benefit.','You are in a good range. Every extra plant food is a measurable improvement to your gut microbiome.','Most people eat about 8 to 10 different plants weekly. Variety matters more than quantity. Even a different herb counts.','Plant diversity is the strongest dietary predictor of gut health, which affects immunity, mood and weight.'],
+     src:'Tim Spector, King\'s College London'},
+    {id:'n4',pillar:'nourish',stage:'Nourish',title:'How often do you cook your own meals at home?',
+     opts:[{t:'Most days. I cook the majority of my meals.',s:100},{t:'A few times a week, mixed with eating out',s:66},{t:'Rarely. Mostly takeaway or ready meals.',s:33},{t:'Almost never. I do not cook at home.',s:0}],
+     insights:['Home cooking is one of the strongest predictors of good nutrition outcomes. You control everything that goes in.','Even cooking 3 meals at home per week produces measurable improvements in diet quality compared to eating out for most meals.','Restaurant and takeaway meals average 60 percent more calories than equivalent home cooked meals and significantly less protein and fibre.','Not cooking is not a barrier to eating well. Your plan will include options that require minimal preparation and still deliver real nutritional value.'],
+     src:'Wolfson and Bleich, 2015, Public Health Nutrition'},
+    {id:'n5',pillar:'nourish',stage:'Nourish',title:'How do you feel after most of your meals?',
+     opts:[{t:'Satisfied and energised. Just right.',s:100},{t:'Usually fine but occasionally bloated or sluggish',s:66},{t:'Often tired or heavy after eating',s:33},{t:'Hungry again within an hour or stuffed and uncomfortable',s:0}],
+     insights:['Post meal energy is a reliable signal that your protein and fibre intake is right and your blood sugar is stable.','Occasional sluggishness usually signals either portion size or food composition. More protein and fibre at each meal typically solves this.','Consistent post meal fatigue is a sign of blood sugar spikes. Higher protein and fibre at each meal solves this for most people within a week.','This is your body\'s clearest signal that something is off in your food composition. It is fixable and the results are fast.'],
+     src:'Applied nutrition science, glycaemic response research'},
+
+    // MOVE
+    {id:'mv1',pillar:'move',stage:'Move',title:'How often do you do resistance training?',
+     opts:[{t:'3 or more times a week, consistently',s:100},{t:'1 to 2 times a week most weeks',s:66},{t:'Occasionally. A few times a month.',s:33},{t:'Rarely or never',s:0}],
+     insights:['Three sessions weekly is where significant adaptation happens. You are building the most important long term health asset there is.','Two sessions is the minimum effective dose. You are getting the stimulus your body needs to change.','Occasional training keeps some fitness but does not produce meaningful adaptation. Consistency matters more than intensity.','Resistance training is the most evidence backed anti ageing intervention available. Two sessions a week is all it takes to start.'],
+     src:'Brad Schoenfeld, CUNY, Gabrielle Lyon MD'},
+    {id:'mv2',pillar:'move',stage:'Move',title:'When you train, does it get harder over time?',
+     opts:[{t:'Yes. I track and consistently push myself further.',s:100},{t:'Sometimes. I try to push harder when I remember.',s:66},{t:'Not really. I do similar workouts each time.',s:33},{t:'I do not train consistently enough for this to apply.',s:0}],
+     insights:['Progressive overload is the entire mechanism of adaptation. Tracking it separates people who transform from those who plateau.','Intentional progression produces results. Making it a system rather than an afterthought would accelerate your gains significantly.','After 4 to 6 weeks, the same stimulus produces no adaptation. The body only changes when it has a reason to.','When you get there, even one extra rep per session is progressive overload. That is all it takes to start adapting.'],
+     src:'Kraemer and Ratamess, 2004, Medicine and Science in Sports'},
+    {id:'mv3',pillar:'move',stage:'Move',title:'How many steps do you average on a typical day?',
+     opts:[{t:'10,000 or more',s:100},{t:'7,000 to 10,000',s:75},{t:'4,000 to 7,000',s:40},{t:'Under 4,000. Mostly sedentary.',s:0}],
+     insights:['10,000 or more is excellent. You are well above the mortality threshold and getting real daily cardiovascular benefit.','7,000 steps is where significant mortality benefit appears in the research. You are in the right zone.','You are below the threshold where major health benefits kick in. Even 2,000 more steps daily makes a measurable difference.','Under 4,000 steps is associated with significantly higher mortality risk. Even a 20 minute walk daily changes this.'],
+     src:'Paluch et al. 2021, JAMA Network Open'},
+    {id:'mv4',pillar:'move',stage:'Move',title:'How consistent is your training? Be honest.',
+     opts:[{t:'Very consistent. I rarely miss planned sessions.',s:100},{t:'Pretty consistent. Maybe one missed session a week.',s:66},{t:'Inconsistent. Good weeks and bad weeks.',s:33},{t:'I struggle to maintain any training routine.',s:0}],
+     insights:['Consistency is the most underrated variable in fitness. An average programme done consistently beats a perfect programme done occasionally.','One missed session a week is completely fine. That is a real life, not a failed commitment.','Wave patterns usually mean the programme does not fit your life. The fix is making the minimum version easier, not trying harder.','Motivation is unreliable. The people who train consistently have not found more motivation. They have made it easier to start.'],
+     src:'Exercise adherence research, BJ Fogg, Tiny Habits'},
+    {id:'mv5',pillar:'move',stage:'Move',title:'How would you describe your current fitness level?',
+     opts:[{t:'Very fit. I perform at a high level.',s:100},{t:'Reasonably fit. Active and capable.',s:66},{t:'Moderate. Could be a lot better.',s:33},{t:'Not fit. This is something I want to change.',s:0}],
+     insights:['High fitness is the single strongest predictor of longevity available to medicine. Protect it.','Reasonable fitness puts you ahead of most people. The gains from here are precision improvements.','This is where most people land. The jump from moderate to reasonably fit is the fastest visible transformation available.','Starting from this point produces the fastest results. The first 8 weeks of consistent training are the most dramatic period of change.'],
+     src:'Peter Attia, Outlive, 2023'},
+
+    // REST
+    {id:'r1',pillar:'rest',stage:'Rest',title:'How do you feel when you wake up on most mornings?',
+     opts:[{t:'Genuinely rested. Ready to go without needing caffeine.',s:100},{t:'Okay. Need a coffee but feel fine after.',s:66},{t:'Tired. Takes a while and several coffees to feel human.',s:33},{t:'Exhausted. Mornings are a real struggle most days.',s:0}],
+     insights:['Waking rested without caffeine means your sleep architecture is working   deep sleep, REM cycles, the whole system. This is the goal.','Needing one coffee is normal and harmless. The quality of your sleep is generally fine.','Needing multiple coffees to function signals your sleep is not restorative, even if the hours look adequate on paper.','This level of morning fatigue affects mood, decision making, metabolism and training performance every single day.'],
+     src:'Matthew Walker, Why We Sleep, Scribner'},
+    {id:'r2',pillar:'rest',stage:'Rest',title:'How consistent is your sleep schedule?',
+     opts:[{t:'Very consistent. Same bedtime and wake time every day including weekends.',s:100},{t:'Mostly consistent with slight variation on weekends.',s:66},{t:'Quite variable. Big difference between weekdays and weekends.',s:33},{t:'No real schedule. I sleep whenever.',s:0}],
+     insights:['Sleep timing consistency is the single most impactful free sleep intervention available. Your circadian rhythm is properly anchored.','Minor weekend variation is fine. The circadian rhythm can absorb a 30 to 60 minute difference without significant impact.','Big swings between weekdays and weekends cause social jetlag. Your circadian clock shifts and Monday morning becomes genuinely harder.','An irregular sleep schedule disrupts every hormone that regulates energy, hunger, mood and recovery.'],
+     src:'Russell Foster, Oxford, Till Roenneberg, Munich'},
+    {id:'r3',pillar:'rest',stage:'Rest',title:'What does your pre sleep routine look like?',
+     opts:[{t:'I have a proper wind down. No screens, consistent routine.',s:100},{t:'I try to wind down but often end up on my phone in bed.',s:66},{t:'I usually watch TV or scroll until I fall asleep.',s:33},{t:'I have no routine. I just crash when I am tired.',s:0}],
+     insights:['A genuine wind down routine drops cortisol and allows melatonin to rise properly. Your sleep quality is better than most people\'s as a result.','Phone in bed is the most common sleep disruptor. Even dimming the screen helps but putting it away completely is the real fix.','Screens suppress melatonin for up to 90 minutes after exposure. The tiredness you feel watching TV is real but sleep quality after is compromised.','Even 10 minutes of a consistent pre sleep habit, the same 10 minutes every night, produces improvements in sleep quality within one week.'],
+     src:'Andrew Huberman, Stanford, blue light and melatonin research'},
+    {id:'r4',pillar:'rest',stage:'Rest',title:'How often do you wake in the night or struggle to get back to sleep?',
+     opts:[{t:'Rarely. I sleep straight through most nights.',s:100},{t:'Occasionally. Once or twice a week.',s:66},{t:'Often. Broken sleep is pretty normal for me.',s:33},{t:'Almost every night. I wake at 3 or 4am regularly.',s:0}],
+     insights:['Sleep continuity is as important as duration. Sleeping through the night means your stress hormones are well regulated.','Occasional waking is completely normal. The pattern over time matters more than individual nights.','Regular broken sleep is as harmful as short sleep. The cause is almost always elevated cortisol, which is directly addressable.','The 3 to 4am wake up pattern is a cortisol signature. It is rarely a primary sleep disorder. Usually stress, blood sugar or alcohol.'],
+     src:'Sleep architecture research, HPA axis regulation'},
+
+    // PURPOSE
+    {id:'p1',pillar:'purpose',stage:'Purpose',title:'How do you feel about most of your days right now?',
+     opts:[{t:'I genuinely look forward to them. Life feels meaningful.',s:100},{t:'Most days are good. Some feel a bit pointless.',s:66},{t:'I mostly just get through them. Not much to look forward to.',s:33},{t:'I am going through the motions. Things feel pretty empty.',s:0}],
+     insights:['Having something meaningful to wake up for is one of the strongest longevity predictors in research. More powerful than most clinical interventions.','Good days with occasional pointlessness is completely normal. The question is whether the ratio is shifting in a direction you feel good about.','Just getting through days is one of the most common and least discussed health risks. It affects cortisol, immunity and motivation for everything else.','Purpose is built deliberately, not discovered. When this pillar is empty, everything else is harder. And it is addressable faster than most people expect.'],
+     src:'Patrick Hill, Carleton University, Harvard Study of Adult Development'},
+    {id:'p2',pillar:'purpose',stage:'Purpose',title:'How clear is your sense of direction in life right now?',
+     opts:[{t:'Very clear. I know what I am building and why.',s:100},{t:'Reasonably clear. General direction, less on the detail.',s:66},{t:'A bit lost. I know what I do not want more than what I do.',s:33},{t:'No real direction. I am figuring it out day by day.',s:0}],
+     insights:['Clarity of direction reduces decision fatigue, improves sleep and lowers anxiety. The brain responds measurably well to having a destination.','A general direction is enough to move. The detail almost always emerges through action rather than planning.','Knowing what you do not want is genuinely useful data. It is the starting point for finding out what you do want.','Operating without direction is metabolically expensive. Your brain spends enormous energy managing uncertainty. Even a rough direction helps significantly.'],
+     src:'Ikigai research, Blue Zones, self determination theory'},
+    {id:'p3',pillar:'purpose',stage:'Purpose',title:'How aligned are your daily actions with what actually matters to you?',
+     opts:[{t:'Very aligned. I spend my time on things that genuinely matter.',s:100},{t:'Mostly. With some obligations I would rather not have.',s:66},{t:'Somewhat misaligned. A lot of my time goes to things that do not matter.',s:33},{t:'Quite misaligned. I often feel like I am living someone else\'s life.',s:0}],
+     insights:['Values alignment is a genuine wellbeing predictor, not just a philosophical nicety. You are getting this right in a way most people never manage.','Some obligations are unavoidable. The ratio matters, and protecting time that does align is worth being deliberate about.','Significant misalignment between values and actions is a chronic stressor. It is invisible but physiologically real and measurable.','Feeling like you are living someone else\'s life is one of the strongest predictors of burnout and chronic dissatisfaction. This is worth addressing directly.'],
+     src:'Self determination theory, Deci and Ryan'},
+
+    // MIND
+    {id:'mi1',pillar:'mind',stage:'Mind',title:'How well do you handle stress on a typical week?',
+     opts:[{t:'Well. I feel in control even when things are demanding.',s:100},{t:'Okay. I manage but some weeks knock me around.',s:66},{t:'Struggling. Stress regularly affects my mood and energy.',s:33},{t:'Poorly. I feel overwhelmed more often than not.',s:0}],
+     insights:['Stress mastery is what high performers share. Your nervous system is working for you, not against you.','Managing with some rough weeks is real life. The question is whether you recover between them.','When stress regularly affects mood and energy, it is no longer just emotional. Cortisol, sleep and inflammation are all involved.','Chronic overwhelm is biologically costly   elevated cortisol, disrupted sleep, increased fat storage. It responds to the right intervention faster than most people expect.'],
+     src:'Robert Sapolsky, Stanford, Why Zebras Do Not Get Ulcers'},
+    {id:'mi2',pillar:'mind',stage:'Mind',title:'When something goes wrong, how do you typically respond?',
+     opts:[{t:'I process it, learn from it and move on relatively quickly.',s:100},{t:'I take it hard initially but bounce back within a day or two.',s:66},{t:'I tend to dwell on it, replaying it for days.',s:33},{t:'I really struggle to let things go. It affects me for a long time.',s:0}],
+     insights:['Healthy processing   not suppression, not rumination   is what resilience actually looks like. You have it.','Taking setbacks hard and then recovering is completely normal. The recovery is the actual skill.','Rumination   replaying events   is one of the strongest predictors of anxiety and depression. It is a habit and habits can change.','Difficulty letting go often signals that something deeper needs attention. It is not a character flaw. It is a pattern worth understanding.'],
+     src:'Kristin Neff, self compassion research, Seligman, learned optimism'},
+    {id:'mi3',pillar:'mind',stage:'Mind',title:'How intentionally do you recover mentally?',
+     opts:[{t:'I have deliberate practices. Breathing, meditation, time in nature.',s:100},{t:'I do some things to unwind but it is not very intentional.',s:66},{t:'I mostly scroll or watch TV to decompress.',s:33},{t:'I just push through until I crash.',s:0}],
+     insights:['Intentional recovery activates the parasympathetic nervous system and brings cortisol to baseline. You are building real, sustainable resilience.','Some recovery is better than none. Making it more intentional, even 10 minutes deliberately, produces measurably better cortisol regulation.','Scrolling and TV feel like rest but maintain sympathetic nervous system activation. Real recovery requires deliberate downregulation.','Pushing through without recovery accumulates stress like compound debt. It feels manageable until it suddenly does not.'],
+     src:'Judson Brewer, Brown University, Andrew Huberman, Stanford'},
+    {id:'mi4',pillar:'mind',stage:'Mind',title:'How is your mental health right now, honestly?',
+     opts:[{t:'Good. I feel stable, resilient and generally well.',s:100},{t:'Okay. Some struggles but mostly managing.',s:66},{t:'Not great. This is an area I know I need to work on.',s:33},{t:'Difficult. Mental health is something I am really struggling with.',s:0}],
+     insights:['Mental stability is a genuine health asset. It affects every other pillar   your training, your nutrition, your sleep, your relationships.','Mostly managing with some struggles is honest and normal. The goal is not perfect mental health. It is the right trend over time.','Recognising where you want to improve is the first and hardest step. Most people never say this out loud to anyone.','Struggling with mental health is more common than anyone admits out loud. It is also one of the most responsive areas to the right support.'],
+     src:'WHO mental health, positive psychology research'},
+
+    // CONNECT
+    {id:'c1',pillar:'connect',stage:'Connect',title:'How would you describe your closest relationships?',
+     opts:[{t:'Deep and genuine. I have people who really know me.',s:100},{t:'Good. Solid friendships but maybe not super deep.',s:66},{t:'Surface level. I have people around but do not feel truly known.',s:33},{t:'Lonely. I do not feel close to many people right now.',s:0}],
+     insights:['Depth over breadth is exactly what Harvard\'s 80 year study found. Having people who truly know you is one of the strongest health predictors available.','Good relationships are genuinely valuable. Depth often develops naturally when you show up consistently for the people you care about.','Feeling present without feeling known is one of the most common and least discussed forms of loneliness. It has real health consequences over time.','Loneliness has the same mortality impact as smoking 15 cigarettes a day. Not as a metaphor. That is what the research shows. And it is treatable.'],
+     src:'Robert Waldinger, Harvard Study of Adult Development'},
+    {id:'c2',pillar:'connect',stage:'Connect',title:'How often do you see people you care about in person?',
+     opts:[{t:'Multiple times a week. Face to face connection is regular.',s:100},{t:'About once a week.',s:66},{t:'A few times a month.',s:33},{t:'Rarely. Most of my social connection is digital.',s:0}],
+     insights:['Regular face to face contact activates biological systems digital connection does not reach   oxytocin, mirror neurons, full social bonding. You are getting this.','Once a week is meaningful. The quality of that time matters as much as the frequency.','A few times a month is below the threshold where the full health benefit of social connection appears in the research.','Digital connection is real but physically it does not replicate in person contact. Face to face contact consistently predicts better health and longer life.'],
+     src:'Susan Pinker, The Village Effect, Julianne Holt Lunstad, BYU'},
+    {id:'c3',pillar:'connect',stage:'Connect',title:'Do you feel like you belong somewhere?',
+     opts:[{t:'Yes. A strong sense of belonging in multiple areas of my life.',s:100},{t:'Somewhat. I have a community but it could feel stronger.',s:66},{t:'Not really. I am between communities right now.',s:33},{t:'No. I feel like I am mostly operating on my own.',s:0}],
+     insights:['Strong belonging is a fundamental biological need being met. Your brain\'s social safety system is fully activated and working for you.','Having a community you are part of, even loosely, provides a meaningful buffer against stress and isolation in difficult periods.','Being between communities is a common transitional experience. It does not have to be permanent but it does have real wellbeing costs in the meantime.','Operating alone activates the same neural regions as physical pain. The need to belong is wired into human biology. Even one genuine community changes this.'],
+     src:'Matthew Lieberman, UCLA, social neuroscience'},
+
+    // THRIVE
+    {id:'t1',pillar:'thrive',stage:'Thrive',title:'How would you honestly describe your overall health and vitality?',
+     opts:[{t:'Excellent. I feel strong, energetic and genuinely well.',s:100},{t:'Good. Healthy with some room to improve.',s:66},{t:'Average. Functioning but not really thriving.',s:33},{t:'Poor. Low energy, frequent illness, not feeling well.',s:0}],
+     insights:['Excellent vitality is the integrated output of all seven pillars working together. That does not happen by accident.','Good health with room to improve is the honest starting point for most meaningful change.','Functioning without thriving is where chronic disease begins, invisibly, years before any diagnosis appears.','Low energy and frequent illness are your body\'s clearest signals that the system is under resourced. The quiz is designed to find exactly where.'],
+     src:'Peter Attia, longevity medicine, functional medicine'},
+    {id:'t2',pillar:'thrive',stage:'Thrive',title:'How often do you do cardiovascular exercise?',
+     opts:[{t:'4 or more times a week',s:100},{t:'2 to 3 times a week',s:75},{t:'Once a week or less',s:33},{t:'Rarely or never',s:0}],
+     insights:['High aerobic training frequency is the single strongest thing you can do for longevity. VO2 max is the top predictor of a long healthy life.','2 to 3 sessions weekly hits the minimum effective dose for meaningful cardiovascular adaptation.','Once weekly maintains some fitness but does not produce significant cardiovascular improvement. Adding one more session changes the equation entirely.','Moving from completely inactive to lightly active reduces mortality risk by approximately 400 percent. Two sessions a week is where it starts.'],
+     src:'Peter Attia, Outlive 2023, Inigo San Millan'},
+    {id:'t3',pillar:'thrive',stage:'Thrive',title:'How proactive are you about monitoring your health?',
+     opts:[{t:'Very. Regular blood tests, health checks, I know my numbers.',s:100},{t:'Somewhat. I see a doctor when something is wrong.',s:66},{t:'Reactive. I do not think much about it until there is a problem.',s:33},{t:'I avoid health checks and have not had one in years.',s:0}],
+     insights:['Knowing your numbers is the difference between prevention and reaction. Most serious health issues show up in blood work years before any symptom appears.','Seeing a doctor only when something is wrong is reactive medicine. The most important issues appear in blood work before any symptom.','Reactive health management means problems are usually further along before they are found. Annual checks take 30 minutes and change everything.','Avoiding health checks does not prevent problems. It delays finding them. The four most important tests: vitamin D, ferritin, HbA1c and cholesterol.'],
+     src:'Preventive medicine guidelines, WHO, RACGP'}
+  ];
+
+  pillars.forEach(function(q){ q.type='mc'; qs.push(q); });
+
+  // STAGE 5: Deep Dive
+  qs.push({id:'dd-why1',stage:'Your Plan',label:'Building your plan',type:'mc',
+    title:'Why do you actually want to be healthier?',
+    opts:[{t:'More energy to enjoy my life',s:0},{t:'Feel better in my body and how I look',s:0},{t:'Live longer and age well',s:0},{t:'I do not fully know yet. I just know something needs to change.',s:0}],
+    insights:['Not knowing your why yet is completely normal. Research shows that clarity of purpose develops through action, not before it. Starting is how you find out.','How you feel about your body affects your stress hormones, sleep quality and motivation. It is not vanity. It is physiology.','80 percent of how you age is behaviour, not genetics. The decisions you make right now are writing your future health.','Not knowing your why yet is completely normal. Starting is how you find out.'],
+    src:'Deci and Ryan, Self Determination Theory',
+    onAnswer:function(i){ P.whyDeep=['energy','look','longevity','unsure'][i]; }
+  });
+  qs.push({id:'dd-why2',stage:'Your Plan',label:'Building your plan',type:'mc',
+    title:'What has stopped you before?',
+    opts:[{t:'I never really knew where to start',s:0},{t:'I would start well then fall off after a few weeks',s:0},{t:'Life got in the way. Work, family, time.',s:0},{t:'Nothing. I am starting completely fresh.',s:0}],
+    insights:['Analysis paralysis is real. Simplicity is not dumbing it down. It is the actual solution.','The average person makes a serious health attempt 4 to 5 times before it sticks. You were not failing. You were practising.','Time is the number one stated barrier to health. But research shows people who say they have no time spend an average of 3 hours daily on screens.','A clean start is genuinely powerful. Starting is how you find out what works for you.'],
+    src:'Prochaska and DiClemente, Transtheoretical Model',
+    onAnswer:function(i){ P.barrier=['nostart','falloff','life','fresh'][i]; }
+  });
+  qs.push({id:'dd-why3',stage:'Your Plan',label:'Building your plan',type:'mc',
+    title:'If you could only do one thing to move more starting today, what feels most doable?',
+    opts:[{t:'A 20 minute walk after dinner',s:0},{t:'Taking the stairs and parking further away',s:0},{t:'One workout a week just to build the habit',s:0},{t:'Standing up and moving for 5 minutes every hour',s:0}],
+    insights:['A 10 to 20 minute walk after a meal reduces blood sugar spikes by up to 30 percent, improves digestion and aids sleep onset.','Incidental movement adds up to the equivalent of a full gym session weekly for people who do it consistently. Every step counts.','One session per week produces measurable strength and health gains in previously inactive people. Start at one and build from there.','Breaking up sitting time with 5 minutes of movement every hour reduces cardiovascular disease risk by 17 percent.'],
+    src:'DiPietro et al., Diabetes Care',
+    onAnswer:function(i){ P.movementStart=['walk','incidental','onesession','standing'][i]; }
+  });
+  qs.push({id:'dd-why4',stage:'Your Plan',label:'Building your plan',type:'mc',
+    title:'Do you believe small daily habits done consistently can genuinely change your health?',
+    opts:[{t:'Yes. 100 percent. I just need to do them.',s:0},{t:'I think so. I need to see it working for me.',s:0},{t:'Maybe. I am open but a little sceptical.',s:0},{t:'Not really. I feel like I need to do more to see any difference.',s:0}],
+    insights:['1 percent better every day compounds to 37 times better over a year. You already know this. Now act on it.','The first two weeks of any new health habit produce the most visible results because the baseline is lowest. Track it for 14 days before judging it.','Every recommendation in your plan comes with the research behind it. You will not be asked to trust anything blindly.','The research is unambiguous. Small consistent behaviours produce larger long term health gains than intense unsustainable efforts. The tortoise was right.'],
+    src:'James Clear, Atomic Habits',
+    onAnswer:function(i){ P.beliefLevel=['believer','hopeful','sceptical','doubter'][i]; }
+  });
+  qs.push({id:'dd-nut1',stage:'Your Plan',label:'Building your plan',type:'mc',
+    title:'What does your biggest eating challenge come down to?',
+    opts:[{t:'Time. Healthy food takes too long to prepare.',s:0},{t:'Money. Eating well feels expensive.',s:0},{t:'Knowledge. I do not know what healthy eating looks like for me.',s:0},{t:'Habits. I know what to do but old patterns keep pulling me back.',s:0}],
+    insights:['Doubling the quantity when you cook, called batch cooking, reduces total weekly food preparation time by up to 60 percent without changing what you eat.','Eggs, canned fish, lentils, chickpeas, oats, frozen vegetables and Greek yoghurt are among the most nutritionally dense and cheapest foods available.','Your plan strips nutrition back to the fundamentals that have remained consistent across decades of research. No jargon, no trends.','Habits are stored in the basal ganglia and operate largely outside conscious control. Changing them requires changing the environment, not just the intention.'],
+    src:'Wolfson and Bleich, Public Health Nutrition',
+    onAnswer:function(i){ P.eatChallenge=['time','money','knowledge','habits'][i]; }
+  });
+  qs.push({id:'dd-nut2',stage:'Your Plan',label:'Building your plan',type:'mc',
+    title:'One change to how you eat, starting today. Which feels most honest?',
+    opts:[{t:'Drink more water',s:0},{t:'Eat less processed food and more real food',s:0},{t:'Stop skipping meals and eat more consistently',s:0},{t:'Cut back on the evening snacking I know is not helping',s:0}],
+    insights:['This is the highest return nutritional change available to most people. It costs nothing and produces improvements in energy and hunger within 48 hours.','Replacing even 20 percent of ultra processed food with whole food reduces calorie intake, improves gut health and increases energy.','Skipping meals reliably increases hunger hormones and leads to larger portions at the next meal. Eating consistently regulates everything.','Evening snacking after dinner adds an average of 300 to 500 extra calories daily to most people\'s intake without registering as a real meal.'],
+    src:'Hall et al. 2019, Cell Metabolism',
+    onAnswer:function(i){ P.eatChange=['water','lessprocessed','noskipping','lesssnacking'][i]; }
+  });
+  qs.push({id:'dd-sleep1',stage:'Your Plan',label:'Building your plan',type:'mc',
+    title:'What are you usually doing in the hour before bed?',
+    opts:[{t:'Phone away, quiet wind down, consistent routine',s:0},{t:'Watching TV or scrolling until I feel tired',s:0},{t:'Working or catching up on things I did not finish',s:0},{t:'No routine. I just crash whenever I can.',s:0}],
+    insights:['A consistent pre sleep routine signals the nervous system to begin the cortisol to melatonin transition. Your sleep quality is better than most people\'s.','Blue light from screens suppresses melatonin for up to 90 minutes. You may feel tired but your brain is physiologically unprepared for deep sleep.','Working close to bedtime elevates cortisol and keeps the prefrontal cortex engaged, delaying sleep onset by an average of 45 minutes.','Even 10 minutes of consistent pre sleep behaviour, the same 10 minutes every night, begins producing results within one week.'],
+    src:'Chang et al., Proceedings of the National Academy of Sciences',
+    onAnswer:function(i){ P.bedtime=['routine','scrolling','working','crash'][i]; }
+  });
+  qs.push({id:'dd-stress1',stage:'Your Plan',label:'Building your plan',type:'mc',
+    title:'When you feel stressed or overwhelmed, what do you usually do?',
+    opts:[{t:'Something that genuinely helps. Exercise, breathing, nature.',s:0},{t:'Distract myself. TV, scrolling, food or a drink.',s:0},{t:'Push through and ignore it until it passes.',s:0},{t:'Nothing. I just sit with it.',s:0}],
+    insights:['Intentional stress recovery activates the parasympathetic nervous system and brings cortisol to baseline. You are building real resilience.','Behavioural distraction provides temporary relief but does not resolve stress. Alcohol actually elevates cortisol the following day.','Suppressing stress rather than processing it is associated with higher rates of burnout and physical illness. The body keeps the score.','Even 5 minutes of deliberate breathing or walking changes the neurochemistry enough to shift a stress state meaningfully.'],
+    src:'Robert Sapolsky, Why Zebras Do Not Get Ulcers',
+    onAnswer:function(i){ P.stressCoping=['healthy','distract','suppress','nothing'][i]; }
+  });
+  qs.push({id:'dd-final',stage:'Your Plan',label:'Almost there',type:'mc',
+    title:'Last one. If you woke up tomorrow feeling genuinely healthy, what would you notice first?',
+    opts:[{t:'Energy. Ready for the day instead of dreading it.',s:0},{t:'Clarity. Sharp and calm instead of foggy and reactive.',s:0},{t:'Lightness. Comfortable and confident in my own body.',s:0},{t:'Peace. Not anxious. Not overwhelmed. Just okay.',s:0}],
+    insights:['Waking with genuine energy is not luck. It is the biological output of adequate sleep, stable blood sugar, managed stress and sufficient movement.','Mental clarity is a measurable physiological state produced by quality sleep, hydration, stable blood sugar and low inflammatory load.','Physical comfort in your own body is one of the strongest drivers of sustained health behaviour. It is the foundation from which every healthy choice becomes easier.','Just okay is an underrated and deeply legitimate health goal. Psychological safety is the foundation of every other dimension of health.'],
+    src:'Matthew Walker, Why We Sleep',
+    onAnswer:function(i){ P.visionOfHealthy=['energy','clarity','lightness','peace'][i]; }
+  });
+
+  return qs;
+}
+
+// ── RENDERING ─────────────────────────────────
+function renderQ(){
+  var q = allQs[curIdx];
+  var total = allQs.length;
+  var pct = Math.round((curIdx/total)*100);
+
+  // Progress
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('pt-stage').textContent = q.stage || '';
+  document.getElementById('pt-step').textContent = q.label || ((curIdx+1) + ' of ' + total);
+
+  // Body
+  var body = document.getElementById('qz-body');
+  body.innerHTML = '';
+  body.className = 'qz-body fade';
+
+  var title = typeof q.title === 'function' ? q.title() : q.title;
+  var html = '<div class="qz-kicker">' + (q.stage||'') + '</div>';
+  html += '<div class="qz-title">' + title + '</div>';
+  if(q.sub) html += '<div class="qz-sub">' + q.sub + '</div>';
+
+  if(q.type === 'mc' || q.type === 'mc_other'){
+    html += '<div class="mc-wrap" id="mc-wrap">';
+    var letters = ['A','B','C','D','E','F','G','H'];
+    q.opts.forEach(function(opt, i){
+      html += '<button class="mc-opt" data-idx="'+i+'" onclick="selectOpt('+i+')"><span class="mc-letter">'+letters[i]+'</span><span class="mc-text">'+opt.t+'</span></button>';
+    });
+    html += '</div>';
+    if(q.type === 'mc_other'){
+      html += '<div id="other-wrap" style="display:none;margin-top:.65rem;"><input class="txt-input" type="text" id="other-inp" placeholder="Please describe..." autocomplete="off"></div>';
+    }
+    if(q.optional) html += '<div class="opt-note">Optional   tap continue to skip</div>';
+  } else if(q.type === 'text' || q.type === 'textarea'){
+    if(q.type === 'textarea'){
+      html += '<textarea class="txt-input" id="txt-inp" rows="4" placeholder="'+(q.placeholder||'')+'"></textarea>';
+    } else {
+      html += '<input class="txt-input" type="text" id="txt-inp" placeholder="'+(q.placeholder||'')+'" autocomplete="given-name">';
+    }
+    if(q.optional) html += '<div class="opt-note">Optional   tap continue to skip</div>';
+  } else if(q.type === 'bodymetrics'){
+    html += '<div class="num-row">';
+    html += '<div class="num-group"><div class="num-label">Height</div><div class="num-wrap"><input class="num-inp" type="number" id="inp-h" placeholder="175" min="100" max="250"><div class="num-unit" id="unit-h">cm</div></div><div class="unit-toggle"><button class="ut-btn on" onclick="setUnit(\'h\',\'cm\',this)">cm</button><button class="ut-btn" onclick="setUnit(\'h\',\'ft\',this)">ft</button></div></div>';
+    html += '<div class="num-group"><div class="num-label">Weight</div><div class="num-wrap"><input class="num-inp" type="number" id="inp-w" placeholder="75" min="30" max="300"><div class="num-unit" id="unit-w">kg</div></div><div class="unit-toggle"><button class="ut-btn on" onclick="setUnit(\'w\',\'kg\',this)">kg</button><button class="ut-btn" onclick="setUnit(\'w\',\'lbs\',this)">lbs</button></div></div>';
+    html += '</div>';
+    html += '<div class="opt-note">Optional   tap continue to skip</div>';
+  } else if(q.type === 'bridge'){
+    var goalPitch = {
+      energy:'Your energy levels are the output of all seven pillars working together. Most people try to fix energy with caffeine and sleep. 7Health finds the real cause.',
+      look:'The way you feel in your body is shaped by training, nutrition, sleep, stress, hormones and your mindset around food. 7Health looks at all of it.',
+      stress:'Stress is not just a feeling. It is physiological. It affects your sleep, your weight, your immunity and your relationships. 7Health finds exactly where it is coming from.',
+      longevity:'The habits that add healthy years to your life are not dramatic. They are small, consistent and compounding. 7Health maps them for your exact life.',
+      understand:'Most people have never had an honest, complete picture of their health. Not just the gym. Not just the food. All seven pillars. That is what you are about to get.',
+      unsure:'Whatever is holding you back, it is in here. 7Health finds it.'
+    };
+    var extra = goalPitch[P.goalType]||'Seven pillars. One honest picture. Built completely around you.';
+    html += '<div style="background:var(--insight-bg);border:1px solid var(--insight-border);border-radius:6px;padding:1.25rem 1.5rem;margin-bottom:1rem;">';
+    html += '<div style="font-size:13px;color:var(--ink2);line-height:1.75;font-weight:300;font-style:italic;">'+extra+'</div></div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-bottom:.5rem;">';
+    var pillars7=[['Nourish','Diet and nutrition'],['Move','Training and exercise'],['Rest','Sleep and recovery'],['Purpose','Meaning and direction'],['Mind','Mental health'],['Connect','Relationships'],['Thrive','Longevity']];
+    pillars7.forEach(function(p){
+      html += '<div style="background:var(--card-bg);border:1px solid var(--rule);padding:.65rem .75rem;border-radius:4px;"><div style="font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);">'+p[0]+'</div><div style="font-size:10px;color:var(--ink3);font-weight:300;">'+p[1]+'</div></div>';
+    });
+    html += '</div>';
+    html += '<div style="font-size:12px;color:var(--ink3);text-align:center;margin-top:.5rem;font-weight:300;">Seven pillars. Your complete health picture.</div>';
+  } else if(q.type === 'data_intro'){
+    html += '<div style="background:var(--card-bg);border:1px solid var(--rule);border-left:3px solid var(--gold);padding:1.25rem 1.5rem;border-radius:0 6px 6px 0;margin-bottom:.5rem;">';
+    html += '<div style="font-size:15px;font-weight:300;color:var(--ink2);line-height:1.8;">';
+    html += 'No two people are the same. A 24 year old personal trainer and a 52 year old shift worker need completely different advice.<br><br>';
+    html += '<strong style="color:var(--ink);font-weight:600;">The more honestly you answer, the more accurate your plan.</strong> This is not a test. There are no wrong answers. Everything you share stays private and shapes your results.';
+    html += '</div></div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:.5rem;">';
+    [['Your age and body','Accurate calorie and protein targets'],['Your occupation','Realistic time and energy planning'],['Where you live','Location specific recommendations'],['Your budget','A plan you can actually afford']].forEach(function(item){
+      html += '<div style="background:var(--card-bg2);border:1px solid var(--rule);padding:.65rem .85rem;"><div style="font-size:10px;font-weight:700;color:var(--ink);margin-bottom:.15rem;">'+item[0]+'</div><div style="font-size:10px;color:var(--ink3);font-weight:300;">'+item[1]+'</div></div>';
+    });
+    html += '</div>';
+  } else if(q.type === 'age_input'){
+    html += '<div style="max-width:200px;"><div class="num-wrap"><input class="num-inp" type="number" id="age-inp" placeholder="25" min="10" max="100" style="font-size:36px;"><div class="num-unit">yrs</div></div></div>';
+  } else if(q.type === 'occupation_input'){
+    html += '<textarea class="txt-input" id="occ-inp" rows="3" placeholder="'+(q.placeholder||'What do you do...') +'"></textarea>';
+    html += '<div class="opt-note">Be specific. This shapes your entire plan.</div>';
+  }
+
+  body.innerHTML = html;
+
+  // Restore previous answer if any
+  if(answers[q.id] !== undefined && (q.type === 'mc' || q.type === 'mc_other')){
+    var prev = document.querySelector('[data-idx="'+answers[q.id]+'"]');
+    if(prev) prev.classList.add('sel');
+  }
+
+  // Hide insight
+  document.getElementById('insight-block').classList.remove('show');
+  document.getElementById('err-msg').classList.remove('show');
+
+  // Button text
+  var isBridge = q.type === 'bridge' || q.type === 'data_intro';
+  document.getElementById('btn-next').textContent = isBridge ? 'I am ready. Let's go →' : 'Continue →';
+  // Back button
+  curIdx > 0 ? document.getElementById('btn-back').classList.remove('gone') : document.getElementById('btn-back').classList.add('gone');
+
+  window.scrollTo(0,0);
+}
+
+function selectOpt(i){
+  var q = allQs[curIdx];
+  document.querySelectorAll('.mc-opt').forEach(function(b){ b.classList.remove('sel'); });
+  document.querySelectorAll('.mc-opt')[i].classList.add('sel');
+  answers[q.id] = i;
+  if(q.onAnswer) q.onAnswer(i);
+  // Show other field if last option and mc_other
+  var otherWrap = document.getElementById('other-wrap');
+  if(otherWrap){
+    var isOther = q.opts[i] && q.opts[i].other;
+    otherWrap.style.display = isOther ? 'block' : 'none';
+    if(isOther) document.getElementById('other-inp').focus();
+  }
+  // Show insight
+  if(q.insights && q.insights[i]){
+    document.getElementById('ins-text').textContent = q.insights[i];
+    document.getElementById('ins-ref').textContent = q.src || '';
+    document.getElementById('insight-block').classList.add('show');
+  }
+  // Score pillars
+  if(q.pillar && q.opts[i] !== undefined){
+    var s = q.opts[i].s;
+    if(scores[q.pillar] === null) scores[q.pillar] = s;
+    else scores[q.pillar] = Math.round((scores[q.pillar] + s) / 2);
+  }
+  document.getElementById('err-msg').classList.remove('show');
+}
+
+function setUnit(field, unit, btn){
+  if(field==='h'){ P.hUnit=unit; var e=document.getElementById('inp-h'); if(e)e.placeholder=unit==='cm'?'175':'70'; document.getElementById('unit-h').textContent=unit; }
+  else { P.wUnit=unit; var e2=document.getElementById('inp-w'); if(e2)e2.placeholder=unit==='kg'?'75':'165'; document.getElementById('unit-w').textContent=unit; }
+  btn.parentNode.querySelectorAll('.ut-btn').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+}
+
+function nextQ(){
+  var q = allQs[curIdx];
+  // Auto advance for info screens
+  if(q.type === 'bridge' || q.type === 'data_intro'){
+    curIdx++;
+    if(curIdx >= allQs.length){ showLoading(); return; }
+    renderQ(); return;
+  }
+  // Validate
+  if((q.type === 'mc' || q.type === 'mc_other') && answers[q.id] === undefined && !q.optional){
+    document.getElementById('err-msg').classList.add('show');
+    return;
+  }
+  if(q.type === 'mc_other' && answers[q.id] !== undefined){
+    var otherInp = document.getElementById('other-inp');
+    var otherVal = otherInp && otherInp.style.display !== 'none' ? otherInp.value.trim() : '';
+    if(q.onAnswer) q.onAnswer(answers[q.id], otherVal);
+  }
+  if(q.type === 'text' || q.type === 'textarea'){
+    var inp = document.getElementById('txt-inp');
+    var val = inp ? inp.value.trim() : '';
+    if(!val && !q.optional){ document.getElementById('err-msg').classList.add('show'); return; }
+    if(q.onAnswer) q.onAnswer(val);
+  }
+  if(q.type === 'bodymetrics'){
+    var h = parseFloat(document.getElementById('inp-h').value);
+    var w = parseFloat(document.getElementById('inp-w').value);
+    if(h && !isNaN(h)) P.height = h;
+    if(w && !isNaN(w)) P.weight = w;
+  }
+  if(q.type === 'age_input'){
+    var ageVal = document.getElementById('age-inp');
+    if(ageVal && ageVal.value){
+      var a = parseInt(ageVal.value);
+      if(a>=10 && a<=100){ P.age=a; if(q.onAnswer) q.onAnswer(a); }
+      else{ document.getElementById('err-msg').textContent='Please enter a valid age between 10 and 100.'; document.getElementById('err-msg').classList.add('show'); return; }
+    } else { document.getElementById('err-msg').classList.add('show'); return; }
+  }
+  if(q.type === 'occupation_input'){
+    var occVal = document.getElementById('occ-inp');
+    var occText = occVal ? occVal.value.trim() : '';
+    if(!occText){ document.getElementById('err-msg').classList.add('show'); return; }
+    if(q.onAnswer) q.onAnswer(occText);
+  }
+  curIdx++;
+  if(curIdx >= allQs.length){ showLoading(); return; }
+  renderQ();
+}
+
+function prevQ(){
+  if(curIdx > 0){ curIdx--; renderQ(); }
+}
+
+// ── LOADING ───────────────────────────────────
+var loadMsgs = [
+  'Reading your answers...',
+  'Understanding your picture...',
+  'Finding your weakest pillar...',
+  'Building your archetype...',
+  'Writing your personalised reading...',
+  'Almost ready...'
+];
+
+function showLoading(){
+  goTo('loading');
+  var bar = document.getElementById('load-bar');
+  var msg = document.getElementById('load-msg');
+  var pct = 0;
+  var msgIdx = 0;
+  var interval = setInterval(function(){
+    pct += 2;
+    bar.style.width = Math.min(pct, 95) + '%';
+    if(pct % 16 === 0 && msgIdx < loadMsgs.length){
+      msg.textContent = loadMsgs[msgIdx++];
+    }
+    if(pct >= 95) clearInterval(interval);
+  }, 60);
+  generateResults(function(){
+    clearInterval(interval);
+    bar.style.width = '100%';
+    setTimeout(function(){ goTo('results'); }, 600);
+  });
+}
+
+// ── AI RESULTS ────────────────────────────────
+var aiResults = {};
+
+function generateResults(cb){
+  var pillarScores = {};
+  Object.keys(scores).forEach(function(k){
+    pillarScores[k] = scores[k] !== null ? scores[k] : 50;
+  });
+  var overall = Math.round(Object.values(pillarScores).reduce(function(a,b){return a+b;},0)/Object.values(pillarScores).length);
+  var weakest = Object.keys(pillarScores).reduce(function(a,b){ return pillarScores[a] < pillarScores[b] ? a : b; });
+  var strongest = Object.keys(pillarScores).reduce(function(a,b){ return pillarScores[a] > pillarScores[b] ? a : b; });
+  aiResults.overall = overall;
+  aiResults.pillarScores = pillarScores;
+  aiResults.weakest = weakest;
+  aiResults.strongest = strongest;
+
+  var prompt = buildPrompt(overall, pillarScores, weakest, strongest);
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:1800,
+      system:'You are 7Health, a warm, honest and evidence-based health platform. You write in a human, personal voice   like a brilliant friend who knows health inside out. Never preachy. Never generic. Never use em dashes. Write as if you know this exact person. Keep each section concise and powerful.',
+      messages:[{role:'user',content:prompt}]
+    })
+  }).then(function(r){ return r.json(); })
+  .then(function(data){
+    var text = data.content && data.content[0] ? data.content[0].text : '';
+    parseAIResponse(text, overall, pillarScores, weakest, strongest);
+    cb();
+  })
+  .catch(function(){
+    buildFallbackResults(overall, pillarScores, weakest, strongest);
+    cb();
+  });
+}
+
+function buildPrompt(overall, pillarScores, weakest, strongest){
+  var scoresText = Object.keys(pillarScores).map(function(k){
+    return PILLAR_LABELS[k]+': '+pillarScores[k]+'/100';
+  }).join(', ');
+
+  return 'Write a personalised 7Health results reading for '+P.name+'. Use their name naturally.\n\n'+
+  'THEIR DATA:\n'+
+  'Name: '+P.name+'\n'+
+  'Why they came today: '+P.whatToday+'\n'+
+  'How they feel right now: '+P.howFeel+'\n'+
+  'Tried before: '+P.triedBefore+'\n'+
+  'Age: '+(P.age||'not provided')+'\n'+
+  'Occupation: '+P.occupation+'\n'+
+  'Living situation: '+P.livingSituation+'\n'+
+  'Food budget: '+P.foodBudget+'\n'+
+  'Main goal: '+P.goalType+'\n'+
+  'Movement preference: '+P.movementStart+'\n'+
+  'Biggest eating challenge: '+P.eatChallenge+'\n'+
+  'One eating change they committed to: '+P.eatChange+'\n'+
+  'Bedtime routine: '+P.bedtime+'\n'+
+  'Stress coping: '+P.stressCoping+'\n'+
+  'Belief in small habits: '+P.beliefLevel+'\n'+
+  'Vision of healthy: '+P.visionOfHealthy+'\n'+
+  'Barrier that stopped them before: '+P.barrier+'\n\n'+
+  'PILLAR SCORES:\n'+scoresText+'\n'+
+  'Overall: '+overall+'/100\n'+
+  'Weakest pillar: '+PILLAR_LABELS[weakest]+' ('+pillarScores[weakest]+')\n'+
+  'Strongest pillar: '+PILLAR_LABELS[strongest]+' ('+pillarScores[strongest]+')\n\n'+
+  'Write exactly these sections with these exact headers:\n\n'+
+  'MOTIVATION: (2 sentences. Warm, genuine, personal. Acknowledge something specific about what they shared. They just took a meaningful step. Make them feel that.)\n\n'+
+  'ARCHETYPE: (Their archetype name as the first word or two. Then 3 to 4 sentences that feel like they were written specifically for this person, using their actual scores, occupation, situation and what they told us. Reference their weakest and strongest pillar specifically. This must not sound generic.)\n\n'+
+  'MIRROR: (3 to 4 sentences reflecting their own answers back to them in a way that creates honest self awareness. Start with what they said they want. Then show the gap between that and what their scores reveal. End with something hopeful and specific. No em dashes.)\n\n'+
+  'ONE_THING: (The single most important action for their weakest pillar '+PILLAR_LABELS[weakest]+'. One specific, doable, evidence-based action. Written in second person. 2 to 3 sentences maximum.)\n\n'+
+  'IMMEDIATE: (One thing they can do in the next 60 minutes. Specific to their situation. One sentence. Start with an action verb.)';
+}
+
+function parseAIResponse(text, overall, pillarScores, weakest, strongest){
+  function extract(key){
+    var re = new RegExp(key+':\\s*([\\s\\S]*?)(?=\\n[A-Z_]+:|$)','i');
+    var m = text.match(re);
+    return m ? m[1].trim() : '';
+  }
+  aiResults.motivation = extract('MOTIVATION') || 'You just did something most people never do. You looked honestly at your whole health, not just one part of it. That takes courage.';
+  aiResults.archetype = extract('ARCHETYPE') || 'The Builder';
+  aiResults.mirror = extract('MIRROR') || 'Your scores reveal a clear picture.';
+  aiResults.oneThing = extract('ONE_THING') || 'Focus on your '+PILLAR_LABELS[weakest].toLowerCase()+' pillar first.';
+  aiResults.immediate = extract('IMMEDIATE') || 'Go for a 20 minute walk right now.';
+
+  // Extract archetype name (first 2-4 words)
+  var archetypeWords = aiResults.archetype.split(' ');
+  aiResults.archetypeName = archetypeWords.slice(0,3).join(' ').replace(/[.,!?]$/,'');
+  aiResults.archetypeDesc = archetypeWords.slice(3).join(' ');
+  if(!aiResults.archetypeDesc){ aiResults.archetypeDesc = aiResults.archetype; aiResults.archetypeName = overall>=75?'The Optimiser':overall>=55?'The Builder':overall>=40?'The Seeker':'Starting Fresh'; }
+
+  buildResultsPage(overall, pillarScores, weakest, strongest);
+}
+
+function buildFallbackResults(overall, pillarScores, weakest, strongest){
+  var name = P.name || 'there';
+  aiResults.motivation = name+', you just did something most people never do. You looked honestly at your whole health, not just one part of it. That matters.';
+  aiResults.archetypeName = overall>=75?'The Optimiser':overall>=55?'The Builder':overall>=40?'The Seeker':'Starting Fresh';
+  aiResults.archetypeDesc = 'Your results reveal a clear picture of where you are and exactly where to focus next. Your '+PILLAR_LABELS[weakest].toLowerCase()+' is your number one opportunity.';
+  aiResults.mirror = 'You came here wanting change. Your scores show exactly where that change needs to happen first. Your '+PILLAR_LABELS[weakest].toLowerCase()+' at '+pillarScores[weakest]+' is where your energy is going missing. Your '+PILLAR_LABELS[strongest].toLowerCase()+' at '+pillarScores[strongest]+' is your foundation to build from.';
+  aiResults.oneThing = 'Your '+PILLAR_LABELS[weakest].toLowerCase()+' pillar is your highest leverage opportunity right now. One small change here will produce improvements across every other pillar.';
+  aiResults.immediate = 'Do one thing in the next 60 minutes that directly addresses your '+PILLAR_LABELS[weakest].toLowerCase()+'.';
+  buildResultsPage(overall, pillarScores, weakest, strongest);
+}
+
+function buildResultsPage(overall, pillarScores, weakest, strongest){
+  // Motivation
+  document.getElementById('r-motivation').textContent = aiResults.motivation;
+  // Archetype
+  document.getElementById('r-name').textContent = aiResults.archetypeName;
+  document.getElementById('r-score-hero').textContent = overall + ' out of 100';
+  document.getElementById('r-desc').textContent = aiResults.archetypeDesc;
+
+  // Score cards (top 4 pillars)
+  var pillarOrder = ['nourish','move','rest','purpose','mind','connect','thrive'];
+  var topPillars = pillarOrder.slice(0,4);
+  var scHtml = '<div class="score-cards">';
+  scHtml += '<div class="sc"><div class="sc-lbl">Overall</div><div class="sc-num">'+overall+'</div></div>';
+  topPillars.slice(0,3).forEach(function(p){
+    scHtml += '<div class="sc"><div class="sc-lbl">'+PILLAR_LABELS[p]+'</div><div class="sc-num">'+pillarScores[p]+'</div></div>';
+  });
+  scHtml += '</div>';
+  document.getElementById('r-score-cards').innerHTML = scHtml;
+
+  // Bar chart
+  var who = [P.name, P.age?P.age+' yrs':'', P.location].filter(Boolean).join(' · ');
+  var barHtml = '<div class="bar-chart"><div class="bc-name">'+who+'</div>';
+  pillarOrder.forEach(function(p){
+    var s = pillarScores[p];
+    var c = s>=70?'#2a7a4a':s>=45?'#C4922A':'#c0392b';
+    barHtml += '<div class="bcb"><div class="bcb-lbl" style="color:'+c+'">'+PILLAR_LABELS[p].toUpperCase().slice(0,6)+'</div><div class="bcb-track"><div class="bcb-fill" style="width:'+s+'%;background:'+c+'"></div></div><div class="bcb-pct" style="color:'+c+'">'+s+'</div></div>';
+  });
+  barHtml += '</div>';
+  document.getElementById('r-bar-chart').innerHTML = barHtml;
+
+  // Metrics block
+  var metricsHtml = buildMetricsBlock(pillarScores);
+  // Insert before mirror — find the res-sec for metrics
+  document.getElementById('r-mirror').textContent = aiResults.mirror;
+
+  // One thing
+  var weakScore = pillarScores[weakest];
+  var wtHtml = '<div class="one-thing"><div class="ot-tag">Your number one priority</div><div class="ot-pillar">'+PILLAR_LABELS[weakest]+'</div><div class="ot-desc">Score: '+weakScore+'/100</div><div class="ot-action">'+aiResults.oneThing+'</div></div>';
+  document.getElementById('r-one-thing').innerHTML = wtHtml;
+
+  // Teasers
+  var teaserInsights = {
+    nourish:{preview:'Your nutrition plan is built around your budget, cooking ability and the foods you actually enjoy.',next:'This week: add one deliberate protein source to every meal. Eggs, Greek yoghurt, chicken, legumes. Just one per meal, every meal.'},
+    move:{preview:'Your movement plan works with what you have access to and the time you can realistically give it.',next:'This week: commit to the one movement you chose during the quiz. Do it 3 times before the week ends.'},
+    rest:{preview:'Your sleep protocol is built around your current bedtime habits and what your schedule allows.',next:'Tonight: put your phone in a different room when you go to bed. Just tonight. See how tomorrow morning feels.'},
+    purpose:{preview:'Your purpose plan includes daily practices to build direction, meaning and intentional action.',next:'Tonight: write down one answer to this. What would make tomorrow feel like a good day? Then do that one thing.'},
+    mind:{preview:'Your mental health plan includes specific tools for stress management and emotional recovery.',next:'Right now: take one slow breath in for 4 seconds, hold for 4, out for 6. Do it three times. That is the first tool in your plan.'},
+    connect:{preview:'Your connection plan includes specific actions to deepen the relationships that matter most.',next:'Today: send one message to someone you care about and have not spoken to in a while. Not a reply. An initiation.'},
+    thrive:{preview:'Your longevity plan builds the daily habits that compound invisibly into extraordinary long term health.',next:'This week: book a GP appointment for a basic health check if you have not had one in over a year.'}
+  };
+
+  var tHtml = '';
+  pillarOrder.forEach(function(p){
+    var s = pillarScores[p];
+    var c = s>=70?'#2a7a4a':s>=45?'#C4922A':'#c0392b';
+    var ti = teaserInsights[p];
+    tHtml += '<div class="teaser" id="teaser-'+p+'" onclick="toggleTeaser(\''+p+'\')"><div class="teaser-header"><div class="th-name" style="color:'+c+'">'+PILLAR_LABELS[p]+'</div><div class="th-bar"><div class="th-fill" style="width:'+s+'%;background:'+c+'"></div></div><div class="th-score" style="color:'+c+'">'+s+'</div></div><div class="teaser-body"><div class="tb-preview">'+ti.preview+'</div><div class="tb-next">Next step: '+ti.next+'</div></div></div>';
+  });
+  document.getElementById('r-teasers').innerHTML = tHtml;
+
+  // Immediate action
+  var immHtml = '<div class="imm-tag">Do this right now</div><div class="imm-title">Your 1% starts here</div><div class="imm-body">'+aiResults.immediate+'</div><button class="btn-immediate" onclick="this.textContent=\'Done ✓\';this.style.background=\'#2a7a4a\'">I did it</button>';
+  document.getElementById('r-immediate').innerHTML = immHtml;
+}
+
+function toggleTeaser(pid){
+  var el = document.getElementById('teaser-'+pid);
+  if(el) el.classList.toggle('open');
+}
+function unlockPlan(){ document.getElementById('eb-email').focus(); document.querySelector('.email-block').scrollIntoView({behavior:'smooth'}); }
+function submitEmail(){
+  var email = document.getElementById('eb-email').value.trim();
+  if(!email || !email.includes('@')){ document.getElementById('eb-note').textContent='Please enter a valid email address.'; return; }
+  document.getElementById('eb-note').textContent='Sent! Check your inbox in the next few minutes.';
+  var btn = document.querySelector('.eb-btn'); if(btn) btn.disabled=true;
+}
+function calcBMI(){
+  if(!P.kg||!P.cm) return null;
+  return Math.round((P.kg/((P.cm/100)*(P.cm/100)))*10)/10;
+}
+function bmiCategory(bmi){
+  if(!bmi) return null;
+  if(bmi<18.5) return {cat:'Underweight',c:'#1a56c4',tip:'Your BMI suggests you may benefit from increasing your calorie and protein intake. Focus on nutrient dense whole foods and resistance training to build healthy mass.'};
+  if(bmi<25) return {cat:'Healthy range',c:'#2a7a4a',tip:'Your BMI is in the healthy range. The goal now is to maintain this while optimising the other six pillars for energy, longevity and wellbeing.'};
+  if(bmi<30) return {cat:'Overweight',c:'#C4922A',tip:'Your BMI suggests some excess body fat which responds well to a calorie deficit of 300 to 500 calories, adequate protein and consistent movement. Small sustainable changes compound fast.'};
+  return {cat:'Obese',c:'#c0392b',tip:'Your BMI is in the obese range. The most impactful starting point is protein intake, daily walking and improving sleep quality. These three changes alone produce significant results within weeks.'};
+}
+function calcWater(){
+  var kg = P.kg||70;
+  var base = Math.round(kg*0.033*10)/10;
+  if(P.activityLevel==='very'||P.activityLevel==='athlete') base = Math.round((base+0.5)*10)/10;
+  return base;
+}
+function calcSteps(){
+  var current = {sedentary:3000,light:5000,moderate:7000,very:9000};
+  var cur = current[P.activityLevel]||5000;
+  var target = Math.min(cur+2000,10000);
+  return {current:cur,target:target};
+}
+function calcSleep(){
+  var age = P.age||30;
+  if(age<18) return {min:8,max:10};
+  if(age<26) return {min:7,max:9};
+  if(age<65) return {min:7,max:9};
+  return {min:7,max:8};
+}
+function buildMetricsBlock(pillarScores){
+  var bmi = calcBMI();
+  var bmiData = bmiCategory(bmi);
+  var water = calcWater();
+  var steps = calcSteps();
+  var sleep = calcSleep();
+  var cals = P.tdee;
+  var goalCals = P.goalType==='fat_loss'?Math.round(cals*0.82/50)*50:P.goalType==='muscle'?cals+250:cals;
+  var protein = P.protein||140;
+  var html = '';
+
+  // Six metric cards with sources
+  var metricCards = [
+    {
+      id:'calories',
+      num:goalCals,
+      unit:'kcal per day',
+      label:'Daily calorie target',
+      goal:P.goalType==='fat_loss'?'Based on a 300 to 500 calorie deficit from your maintenance of '+cals+'kcal. Sustainable fat loss without muscle loss.':P.goalType==='muscle'?'Based on a 250 calorie surplus above your maintenance of '+cals+'kcal. Enough to build without excess fat gain.':'Your maintenance calories based on your height, weight, age, sex and activity level.',
+      source:'Mifflin St Jeor equation, validated in over 50 clinical studies as the most accurate calorie estimation formula available.'
+    },
+    {
+      id:'protein',
+      num:protein+'g',
+      unit:'grams per day',
+      label:'Daily protein target',
+      goal:'At '+(P.kg?Math.round(P.kg)+'kg, your':' your estimated')+' target is '+protein+'g daily. Spread across 3 to 4 meals for best absorption. Each meal should contain at least 30g.',
+      source:'Stuart Phillips, McMaster University. 1.6g per kg of bodyweight is the evidence based minimum for muscle preservation and body composition improvement.'
+    },
+    {
+      id:'water',
+      num:water+'L',
+      unit:'litres per day',
+      label:'Daily hydration goal',
+      goal:'Based on your bodyweight of '+(P.kg?Math.round(P.kg)+'kg':'an average adult')+'. Increase by 500ml on training days. Drink consistently throughout the day rather than all at once.',
+      source:'European Food Safety Authority hydration guidelines. 33ml per kg of bodyweight is the evidence based daily minimum for optimal physiological function.'
+    },
+    {
+      id:'steps',
+      num:steps.target.toLocaleString(),
+      unit:'steps per day',
+      label:'Daily step goal',
+      goal:'Your estimated current average is around '+steps.current.toLocaleString()+' steps based on your activity level. This target adds '+((steps.target-steps.current)/1000).toFixed(0)+'k steps progressively. A 20 minute walk adds roughly 2,000 steps.',
+      source:'Paluch et al. 2021, JAMA Network Open. 7,000 steps per day is where significant mortality reduction appears. Each additional 1,000 steps reduces risk further.'
+    },
+    {
+      id:'sleep',
+      num:sleep.min+' to '+sleep.max+'hrs',
+      unit:'per night',
+      label:'Sleep target',
+      goal:'Based on your age of '+(P.age||'an adult')+'. Quality matters as much as duration. Focus on consistent timing, a dark cool room and no screens in the hour before bed.',
+      source:'National Sleep Foundation and Matthew Walker, Why We Sleep. Sleep requirements shift with age and are most critical for recovery, hormonal balance and cognitive function.'
+    },
+    {
+      id:'bmi',
+      num:bmi||'N/A',
+      unit:bmiData?bmiData.cat:'Add height and weight',
+      label:'Body Mass Index',
+      goal:bmiData?bmiData.tip:'Enter your height and weight to calculate your BMI and get personalised context.',
+      source:'World Health Organisation BMI classification. BMI is a useful screening tool but does not account for muscle mass. Use alongside other metrics for a complete picture.'
+    }
+  ];
+
+  metricCards.forEach(function(m){
+    var accentCol = m.id==='bmi'&&bmiData?bmiData.c:'var(--gold)';
+    html += '<div style="background:var(--card-bg);border:1px solid var(--rule);border-left:3px solid '+accentCol+';padding:1.25rem;margin-bottom:.4rem;">';
+    // Header row
+    html += '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.65rem;">';
+    html += '<div>';
+    html += '<div style="font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:'+accentCol+';margin-bottom:.3rem;">'+m.label+'</div>';
+    html += '<div style="font-family:Urbanist,sans-serif;font-size:clamp(32px,5vw,48px);font-weight:200;color:var(--score-c);line-height:1;letter-spacing:-1.5px;">'+m.num+'</div>';
+    html += '<div style="font-size:9px;color:var(--ink3);font-weight:400;letter-spacing:.04em;">'+m.unit+'</div>';
+    html += '</div>';
+    // Mini BMI scale if BMI card
+    if(m.id==='bmi'&&bmi&&bmiData){
+      html += '<div style="display:flex;flex-direction:column;gap:2px;width:100px;flex-shrink:0;">';
+      [{l:'Underweight',r:'18.5',c:'#1a56c4'},{l:'Healthy',r:'24.9',c:'#2a7a4a'},{l:'Overweight',r:'29.9',c:'#C4922A'},{l:'Obese',r:'30+',c:'#c0392b'}].forEach(function(zone){
+        var isActive = bmiData.cat==='Healthy range'?zone.l==='Healthy':bmiData.cat.toLowerCase()===zone.l.toLowerCase();
+        html += '<div style="background:'+zone.c+';padding:3px 6px;opacity:'+(isActive?1:0.3)+';border-radius:2px;">';
+        html += '<div style="font-size:7px;font-weight:700;color:#fff;">'+zone.l+'</div>';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+    // Goal text
+    html += '<div style="font-size:12px;color:var(--ink2);line-height:1.65;font-weight:300;margin-bottom:.6rem;">'+m.goal+'</div>';
+    // Source
+    html += '<div style="font-size:9px;color:var(--ink3);line-height:1.5;font-weight:300;padding-top:.5rem;border-top:1px solid var(--rule2);">';
+    html += '<span style="font-weight:700;color:var(--ink3);">Source: </span>'+m.source;
+    html += '</div>';
+    html += '</div>';
+  });
+
+
+
+  return html;
+}
+function shareResults(){
+  var overall = aiResults.overall||0;
+  var text = 'I just got my 7Health reading.\n\nOverall score: '+overall+'/100\n\nIt looks at all seven pillars of health, not just the gym. Free reading at 7health.co';
+  if(navigator.share) navigator.share({title:'My 7Health Reading',text:text,url:'https://7health.co'}).catch(function(){});
+  else navigator.clipboard.writeText(text).then(function(){ alert('Copied! Paste it anywhere to share.'); });
+}
+
+// Theme init
+var thm = localStorage.getItem('7h-theme')||'light';
+if(thm==='dark') document.documentElement.setAttribute('data-theme','dark');
+document.getElementById('tog-lbl').textContent = thm==='light'?'Light':'Dark';
+</script>
+</body>
+</html>
